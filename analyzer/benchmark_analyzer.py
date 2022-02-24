@@ -32,24 +32,24 @@ def createBenchmarkResults(benchmark_samples, operation):
         
         benchmark_stats = benchmark_results.statistics[key]
 
-        benchmark_stats.num_analyzed_samples          = Statistics.getNumAnalyzedSamples(benchmark_samples_to_process)
-        benchmark_stats.minimum                       = Statistics.getMin(benchmark_samples_to_process)
-        benchmark_stats.lower_fence                   = benchmark_results.sorted_no_outliers_samples[0]  # Plotly uses first non outlier point, for exact lower_fence set to: lower_fence
-        benchmark_stats.q1                            = Statistics.getPercentile(benchmark_samples_to_process, 25)
-        benchmark_stats.mean                          = Statistics.getMean(benchmark_samples_to_process)
-        benchmark_stats.median                        = Statistics.getPercentile(benchmark_samples_to_process, 50)
-        benchmark_stats.q3                            = Statistics.getPercentile(benchmark_samples_to_process, 75)
-        benchmark_stats.upper_fence                   = benchmark_results.sorted_no_outliers_samples[-1] # Plotly uses last  non outlier point, for exact upper_fence set to: upper_fence
-        benchmark_stats.maximum                       = Statistics.getMax(benchmark_samples_to_process)
-        benchmark_stats.iqr                           = Statistics.getIQR(benchmark_samples_to_process)
-        benchmark_stats.std_dev                       = Statistics.getStdDev(benchmark_samples_to_process)
-        benchmark_stats.std_err                       = Statistics.getStdErr(benchmark_samples_to_process)
-        benchmark_stats.std_err_percentage            = benchmark_stats.std_err / benchmark_stats.mean * 100.0
-        benchmark_stats.margin                        = Statistics.getMargin(benchmark_samples_to_process)
-        benchmark_stats.margin_percentage             = benchmark_stats.margin / benchmark_stats.mean * 100.0
-        benchmark_stats.confidence_interval           = Statistics.getConfidenceInterval(benchmark_samples_to_process)
-        benchmark_stats.skewness                      = Statistics.getSkewness(benchmark_samples_to_process)
-        benchmark_stats.kurtosis                      = Statistics.getKurtosis(benchmark_samples_to_process)  
+        benchmark_stats.num_analyzed_samples = Statistics.getNumAnalyzedSamples(benchmark_samples_to_process)
+        benchmark_stats.minimum              = Statistics.getMin(benchmark_samples_to_process)
+        benchmark_stats.lower_fence          = benchmark_results.sorted_no_outliers_samples[0]  # Plotly uses first non outlier point, for exact lower_fence set to: lower_fence
+        benchmark_stats.q1                   = Statistics.getPercentile(benchmark_samples_to_process, 25)
+        benchmark_stats.mean                 = Statistics.getMean(benchmark_samples_to_process)
+        benchmark_stats.median               = Statistics.getPercentile(benchmark_samples_to_process, 50)
+        benchmark_stats.q3                   = Statistics.getPercentile(benchmark_samples_to_process, 75)
+        benchmark_stats.upper_fence          = benchmark_results.sorted_no_outliers_samples[-1] # Plotly uses last  non outlier point, for exact upper_fence set to: upper_fence
+        benchmark_stats.maximum              = Statistics.getMax(benchmark_samples_to_process)
+        benchmark_stats.iqr                  = Statistics.getIQR(benchmark_samples_to_process)
+        benchmark_stats.std_dev              = Statistics.getStdDev(benchmark_samples_to_process)
+        benchmark_stats.std_err              = Statistics.getStdErr(benchmark_samples_to_process)
+        benchmark_stats.std_err_percentage   = benchmark_stats.std_err / benchmark_stats.mean * 100.0
+        benchmark_stats.margin               = Statistics.getMargin(benchmark_samples_to_process)
+        benchmark_stats.margin_percentage    = benchmark_stats.margin / benchmark_stats.mean * 100.0
+        benchmark_stats.confidence_interval  = Statistics.getConfidenceInterval(benchmark_samples_to_process)
+        benchmark_stats.skewness             = Statistics.getSkewness(benchmark_samples_to_process)
+        benchmark_stats.kurtosis             = Statistics.getKurtosis(benchmark_samples_to_process)  
 
     return benchmark_results
 

@@ -138,6 +138,29 @@ function updateBenchmarkListComboBox(comboboxName, value, operation)
     });
 }
 
+
+//--------------------------------------------------------------------------------------------------
+// Events
+//--------------------------------------------------------------------------------------------------
+$("#operations").change(function()
+{
+    populateBenchmarkListComboBox("#benchmark_start");
+    populateBenchmarkListComboBox("#benchmark_end");
+});
+
+$("#benchmark_start").change(function()
+{
+    const operation = $("#operations option:selected").text()
+    updateBenchmarkListComboBox("#benchmark_end", $(this).val(), operation);
+});
+
+$("#benchmark_end").change(function()
+{
+    const operation = $("#operations option:selected").text()
+    updateBenchmarkListComboBox("#benchmark_start", $(this).val(), operation);
+});
+
+
 //--------------------------------------------------------------------------------------------------
 // Functions called from HTML
 //--------------------------------------------------------------------------------------------------
@@ -163,28 +186,6 @@ function getBenchmarkDataInRange()
     
     retrieveAndDisplayJSONData(operation, benchmarkIds);
 }
-
-
-//--------------------------------------------------------------------------------------------------
-// Events
-//--------------------------------------------------------------------------------------------------
-$("#operations").change(function()
-{
-    populateBenchmarkListComboBox("#benchmark_start");
-    populateBenchmarkListComboBox("#benchmark_end");
-});
-
-$("#benchmark_start").change(function()
-{
-    const operation = $("#operations option:selected").text()
-    updateBenchmarkListComboBox("#benchmark_end", $(this).val(), operation);
-});
-
-$("#benchmark_end").change(function()
-{
-    const operation = $("#operations option:selected").text()
-    updateBenchmarkListComboBox("#benchmark_start", $(this).val(), operation);
-});
 
 
 //--------------------------------------------------------------------------------------------------

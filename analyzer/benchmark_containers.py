@@ -5,24 +5,24 @@ from datetime import datetime
 
 class BenchmarkStatsContainer:
     def __init__(self):
-        self.num_analyzed_samples          = 0
-        self.minimum                       = 0.0
-        self.lower_fence                   = 0.0
-        self.q1                            = 0.0
-        self.mean                          = 0.0
-        self.median                        = 0.0
-        self.q3                            = 0.0
-        self.upper_fence                   = 0.0
-        self.maximum                       = 0.0
-        self.iqr                           = 0.0
-        self.std_dev                       = 0.0
-        self.std_err                       = 0.0
-        self.std_err_percentage            = 0.0
-        self.margin                        = 0.0
-        self.margin_percentage             = 0.0
-        self.confidence_interval           = {}
-        self.skewness                      = 0.0
-        self.kurtosis                      = 0.0
+        self.num_analyzed_samples = 0
+        self.minimum              = 0.0
+        self.lower_fence          = 0.0
+        self.q1                   = 0.0
+        self.mean                 = 0.0
+        self.median               = 0.0
+        self.q3                   = 0.0
+        self.upper_fence          = 0.0
+        self.maximum              = 0.0
+        self.iqr                  = 0.0
+        self.std_dev              = 0.0
+        self.std_err              = 0.0
+        self.std_err_percentage   = 0.0
+        self.margin               = 0.0
+        self.margin_percentage    = 0.0
+        self.confidence_interval  = {}
+        self.skewness             = 0.0
+        self.kurtosis             = 0.0
 
 
 class BenchmarkResultsContainer:

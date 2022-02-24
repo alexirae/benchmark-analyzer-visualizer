@@ -1,5 +1,5 @@
 //--------------------------------------------------------------------------------------------------
-// Functions called from HTML
+// Functions called from events
 //--------------------------------------------------------------------------------------------------
 function getBenchmarkData(benchmarkInfo)
 {
@@ -18,20 +18,6 @@ function getBenchmarkData(benchmarkInfo)
     generateAndDisplayPlots(benchmarkInfo, showOutliers);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-function changeOutliers()
-{
-    const contents = sessionStorage.getItem("fileContentPersistence");
-    
-    if (contents)
-    {
-        const benchmarkInfo = JSON.parse(contents);
-        getBenchmarkData(benchmarkInfo);
-    }
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 //--------------------------------------------------------------------------------------------------
 // Events
@@ -62,4 +48,19 @@ $("#fileInput").change(function readFile(e)
 window.onunload = function()
 {
     sessionStorage.clear();
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Functions called from HTML
+//--------------------------------------------------------------------------------------------------
+function changeOutliers()
+{
+    const contents = sessionStorage.getItem("fileContentPersistence");
+    
+    if (contents)
+    {
+        const benchmarkInfo = JSON.parse(contents);
+        getBenchmarkData(benchmarkInfo);
+    }
 }
