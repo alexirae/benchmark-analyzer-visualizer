@@ -1,0 +1,70 @@
+{
+    "name": "Benchmark_Results_Feb-22-2022_21h04m00s",
+    "operation": "Read",
+    "sorted_lower_outliers_samples": [
+        12.088
+    ],
+    "sorted_no_outliers_samples": [
+        105.3095,
+        106.3854,
+        108.2859,
+        108.3134,
+        110.2321,
+        110.2366,
+        110.2775,
+        110.4259
+    ],
+    "sorted_upper_outliers_samples": [
+        184.9171
+    ],
+    "statistics": {
+        "With outliers": {
+            "num_analyzed_samples": 10,
+            "minimum": 12.088,
+            "lower_fence": 105.3095,
+            "q1": 106.3854,
+            "mean": 106.64714,
+            "median": 109.27275,
+            "q3": 110.2775,
+            "upper_fence": 110.4259,
+            "maximum": 184.9171,
+            "iqr": 3.8920999999999992,
+            "std_dev": 38.894899464356506,
+            "std_err": 12.299647167062963,
+            "std_err_percentage": 11.533030484514601,
+            "margin": 58.80353794355326,
+            "margin_percentage": 55.13841059737117,
+            "confidence_interval": {
+                "ci_lower": 47.843602056446734,
+                "ci_upper": 165.45067794355325,
+                "ci_level": 99.9
+            },
+            "skewness": -0.6216730757941611,
+            "kurtosis": 5.133264116732602
+        },
+        "Without outliers": {
+            "num_analyzed_samples": 8,
+            "minimum": 105.3095,
+            "lower_fence": 105.3095,
+            "q1": 107.33565,
+            "mean": 108.6832875,
+            "median": 109.27275,
+            "q3": 110.25704999999999,
+            "upper_fence": 110.4259,
+            "maximum": 110.4259,
+            "iqr": 2.9213999999999913,
+            "std_dev": 1.84889407311337,
+            "std_err": 0.6536827683970401,
+            "std_err_percentage": 0.6014565656168985,
+            "margin": 3.5350396174786463,
+            "margin_percentage": 3.2526064483268833,
+            "confidence_interval": {
+                "ci_lower": 105.14824788252136,
+                "ci_upper": 112.21832711747865,
+                "ci_level": 99.9
+            },
+            "skewness": -0.6693176651112271,
+            "kurtosis": 1.9761819921803656
+        }
+    }
+}

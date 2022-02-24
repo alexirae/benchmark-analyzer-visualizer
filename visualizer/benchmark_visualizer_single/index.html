@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Benchmark Results</title>
+        <link rel="shortcut icon" href="#" />
+        
+        <style>
+            body
+            {
+              font-family: Arial, sans-serif;
+            }
+            
+            table, th, td
+            {
+                border: 1px solid black;
+                border-collapse: collapse;
+                font-size: 15px;
+            }
+            
+            th, td
+            {
+                padding: 5px;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <p><b>Select Benchmark Result:</b></p>
+        
+        <label>
+            Operation:
+            <select id="operations">
+                <!-- Combobox will be populated from JSON File -->
+            </select>
+        </label>
+        
+        <br><br>
+        
+        <select id="benchmarks">
+            <!-- Combobox will be populated from JSON File -->
+        </select>
+        
+        <br><br>
+        
+        <input type="radio" id="showOutliers" name="checkOutliers" onclick="getBenchmarkData()" autocomplete="off" checked />
+        <label for="showOutliers">Show Outliers</label>
+        
+        <input type="radio" id="hideOutliers" name="checkOutliers" onclick="getBenchmarkData()" autocomplete="off" />
+        <label for="hideOutliers">Hide Outliers</label>
+        
+        <br><br>
+        
+        <div id="benchmark_statistics">
+        </div>
+        
+        <div id="benchmark_results_plot_histogram">
+            <!-- Plotly chart will be drawn inside this div -->
+        </div>
+        
+        <div id="benchmark_results_plot_density">
+            <!-- Plotly chart will be drawn inside this div -->
+        </div>
+        
+        <div id="benchmark_results_plot_box">
+            <!-- Plotly chart will be drawn inside this div -->
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="../benchmark_visualizer_common/benchmark_visualizer_utils.js"></script>
+        <script src="../benchmark_visualizer_common/benchmark_visualizer_common_single.js"></script>
+        <script src="benchmark_visualizer_single.js"></script>
+    </body>
+</html>
