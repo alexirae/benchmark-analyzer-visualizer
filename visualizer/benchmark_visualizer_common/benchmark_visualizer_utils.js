@@ -1,5 +1,13 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////
+//------------------------------------------------------------------------------------------------
+// Utils Vars
+//------------------------------------------------------------------------------------------------
+const twoPI               = 2.0 * Math.PI;
+const one_over_sqrt_twoPI = 1.0 / Math.sqrt(twoPI);
 
+
+//------------------------------------------------------------------------------------------------
+// Utils Functions
+//------------------------------------------------------------------------------------------------
 function getIntegerPart(num)
 {
     return ~~num;
@@ -13,7 +21,7 @@ function arange(start, stop, step)
     
     let arr = [];
     
-    for (let i=start; i < stop; i += step)
+    for (let i = start; i < stop; i += step)
     {
         arr.push(i);
     }
@@ -25,28 +33,31 @@ function arange(start, stop, step)
 
 function gaussKDE(xi, x, h)
 {
-    return (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-Math.pow((x - xi) / h, 2) / 2);
+	const x_minus_xi_over_h = (x - xi) / h;
+    return one_over_sqrt_twoPI * Math.exp(x_minus_xi_over_h * x_minus_xi_over_h * -0.5);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 function getKDE(samples, x_range, std_dev)
 {
-    let kde         = [];
-    let num_samples = samples.length;
-    
-    let bw_scott = 1.06 * std_dev * Math.pow(num_samples, -1/5);
+    let kde = [];
+	
+    const numSamples = samples.length;
+    const bwScott    = 1.06 * std_dev * Math.pow(numSamples, -1/5);
+	
+	const numSamplex_x_bwScott = numSamples * bwScott;
 
-    for (i = 0; i < x_range.length; i++)
+    for (i = 0; i < x_range.length; ++i)
     {
         let temp = 0;
         
-        for (j = 0; j < num_samples; j++)
+        for (j = 0; j < numSamples; ++j)
         {
-            temp = temp + gaussKDE(x_range[i], samples[j], bw_scott);
+            temp = temp + gaussKDE(x_range[i], samples[j], bwScott);
         }
         
-        kde.push(1 / (num_samples * bw_scott) * temp);
+        kde.push(1.0 / numSamplex_x_bwScott * temp);
     }
     
     return kde;
@@ -56,7 +67,7 @@ function getKDE(samples, x_range, std_dev)
 
 function getRandomHexColor()
 {
-    return "#" + Math.floor(Math.random()*16777215).toString(16);
+    return "#" + Math.floor(Math.random() * 16777215).toString(16);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
