@@ -77,10 +77,7 @@ def printBenchmarkResults(benchmark_samples, benchmark_results):
 
 ##############################################################################
 
-#-----------------------------------------------------------------------------
-# Main
-#-----------------------------------------------------------------------------
-if __name__ == '__main__':
+def runAnalyzer(kwargs=None):
     # Parse args
     parser = argparse.ArgumentParser(description="Benchmark Analyzer")
 
@@ -121,3 +118,12 @@ if __name__ == '__main__':
 
     # Export benchmark results to a JSON file
     benchmark_results.toJSONFile(json_output_path, operation)
+
+##############################################################################
+
+
+#-----------------------------------------------------------------------------
+# Main
+#-----------------------------------------------------------------------------
+if __name__ == '__main__':
+    runAnalyzer()
