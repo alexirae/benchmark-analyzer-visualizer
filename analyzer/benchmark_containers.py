@@ -88,8 +88,8 @@ class BenchmarkResultsContainer:
         return self.__getFormatedStatisticsResults(remove_outliers=False)
     
     
-    def toJSONFile(self, json_output_path, operation):
-        benchmark_results_id   = "Benchmark_Results_" + datetime.now().strftime("%b-%d-%Y_%Hh%Mm%Ss")
+    def toJSONFile(self, json_output_path, operation, output_file_name):
+        benchmark_results_id   = "Benchmark_Results_" + datetime.now().strftime("%b-%d-%Y_%Hh%Mm%Ss") if output_file_name == None else output_file_name
         benchmark_results_dict = {}
         benchmark_results_dict["name"] = benchmark_results_id
         benchmark_results_dict.update(self.__dict__)
@@ -97,7 +97,7 @@ class BenchmarkResultsContainer:
         operation_dir_path = os.path.join(json_output_path, operation)
         
         if not os.path.exists(operation_dir_path):
-            os.mkdir(operation_dir_path)
+            os.makedirs(operation_dir_path)
 
         json_file = os.path.join(operation_dir_path, (benchmark_results_id + ".json"))
 

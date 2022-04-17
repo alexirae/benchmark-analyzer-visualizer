@@ -98,26 +98,33 @@ def runAnalyzer(kwargs=None):
                         type=str,
                         required=True,
                         help="Name of the operation related to the benchmark observations.")
+    
+    parser.add_argument("-out_name", 
+                        "--output_file_name", 
+                        type=str,
+                        required=False,
+                        help="(Optional) The name of the output file, if this option is not used the file will be called Benchmark_Results_<MONTH>-<DAY>-<YEAR>_<HOUR>h<MINUTE>m<SECOND>s.")
 
     args = parser.parse_args()
 
     # Input Params
-    benchmark_samples_file_path = args.benchmark_samples_file
-    json_output_path            = args.json_output_path
-    operation                   = args.operation_name
+    benchmark_samples_file = args.benchmark_samples_file
+    json_output_path       = args.json_output_path
+    operation_name         = args.operation_name
+    output_file_name       = args.output_file_name
     
     # Create an array from benchmark samples in file
-    with open(benchmark_samples_file_path) as file:
+    with open(benchmark_samples_file) as file:
         benchmark_samples = np.fromfile(file, dtype=float, sep=",")
     
     # Create benchmark results
-    benchmark_results = createBenchmarkResults(benchmark_samples, operation)
+    benchmark_results = createBenchmarkResults(benchmark_samples, operation_name)
     
     # Print benchmark results
     printBenchmarkResults(benchmark_samples, benchmark_results)
 
     # Export benchmark results to a JSON file
-    benchmark_results.toJSONFile(json_output_path, operation)
+    benchmark_results.toJSONFile(json_output_path, operation_name, output_file_name)
 
 ##############################################################################
 
