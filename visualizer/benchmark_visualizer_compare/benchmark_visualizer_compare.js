@@ -164,10 +164,12 @@ $("#benchmark_end").change(function()
 //--------------------------------------------------------------------------------------------------
 function getBenchmarkDataInRange()
 {
+	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
+	
     const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
     const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
 
-    if (benchmarkStartSelectedIndex == 0 || benchmarkEndSelectedIndex == 0)
+    if (operationsSelectedIndex == 0 || benchmarkStartSelectedIndex == 0 || benchmarkEndSelectedIndex == 0)
     {
         return;
     }

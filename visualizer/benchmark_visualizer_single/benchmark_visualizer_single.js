@@ -43,9 +43,10 @@ $("#benchmarks").change(function()
 //--------------------------------------------------------------------------------------------------
 function getBenchmarkData()
 {
-    const benchmarkSelectedIndex = $("#benchmarks").prop("selectedIndex");
+	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
+    const benchmarkSelectedIndex  = $("#benchmarks").prop("selectedIndex");
 
-    if (benchmarkSelectedIndex == 0)
+    if (operationsSelectedIndex == 0 || benchmarkSelectedIndex == 0)
     {
         return;
     }
