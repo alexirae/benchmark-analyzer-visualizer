@@ -1,5 +1,6 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
+//--------------------------------------------------------------------------------------------------
+// Helper Functions
+//--------------------------------------------------------------------------------------------------
 function retrieveAndDisplayJSONData(operation, benchmarkIds)
 {
     // Create calls to collect JSON benchmark data
@@ -69,7 +70,7 @@ function updateBenchmarkListComboBox(comboboxName, value, operation)
         // Collect benchmark ids
         let benchmarkIds = [];
         
-        const benchmarkList = jsonObjects[operation];
+        const benchmarkList = jsonObjects["OPERATIONS"][operation];
         
         for (let i = 0; i < benchmarkList.length; i++)
         {
@@ -140,12 +141,6 @@ function updateBenchmarkListComboBox(comboboxName, value, operation)
 //--------------------------------------------------------------------------------------------------
 // Events
 //--------------------------------------------------------------------------------------------------
-$("#operations").change(function()
-{
-    populateBenchmarkListComboBox("#benchmark_start");
-    populateBenchmarkListComboBox("#benchmark_end");
-});
-
 $("#benchmark_start").change(function()
 {
     const operation = $("#operations option:selected").text();
@@ -188,4 +183,4 @@ function getBenchmarkDataInRange()
 //--------------------------------------------------------------------------------------------------
 // Main
 //--------------------------------------------------------------------------------------------------
-populateOperationsComboBox();
+populateOperationsComboBox(comboBoxFunction);

@@ -248,7 +248,7 @@ function populateBenchmarkListComboBox(comboboxName)
 
     $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
-        const operationBenchmarkList = jsonObjects[operation];
+        const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
         
         for (let i = 0; i < operationBenchmarkList.length; i++)
         {
@@ -257,30 +257,8 @@ function populateBenchmarkListComboBox(comboboxName)
     });
 }
 
-
-//--------------------------------------------------------------------------------------------------
-// Functions called main (Initialize)
-//--------------------------------------------------------------------------------------------------
-function populateOperationsComboBox()
+function comboBoxFunction()
 {
-    let operationsComboBox = $("#operations");
-
-    operationsComboBox.empty();
-
-    operationsComboBox.append("<option selected='true' value='0' disabled>Choose Operation</option>");
-    operationsComboBox.prop("selectedIndex", 0);
-
-    $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
-    {
-        let i = 1;
-        
-        $.each(jsonObjects, function(key)
-        {
-            const operation = key;
-            
-            operationsComboBox.append($("<option></option>").attr("value", i).text(operation));
-            
-            i++;
-        });
-    });
-}
+	populateBenchmarkListComboBox("#benchmark_start");
+	populateBenchmarkListComboBox("#benchmark_end");
+};

@@ -1,16 +1,18 @@
 {
-    "Read": [
-        "Benchmark_Results_Feb-22-2022_21h04m00s",
-        "Benchmark_Results_Feb-22-2022_21h04m01s",
-        "Benchmark_Results_Feb-22-2022_21h04m02s",
-        "Benchmark_Results_Feb-22-2022_21h04m03s",
-        "Benchmark_Results_Feb-22-2022_21h04m04s"
-    ],
-    "Write": [
-        "Benchmark_Results_Feb-22-2022_21h05m00s",
-        "Benchmark_Results_Feb-22-2022_21h05m01s",
-        "Benchmark_Results_Feb-22-2022_21h05m02s",
-        "Benchmark_Results_Feb-22-2022_21h05m03s",
-        "Benchmark_Results_Feb-22-2022_21h05m04s"
-    ]
+    "OPERATIONS": {
+        "Read": [
+            "Benchmark_Results_Feb-22-2022_21h04m00s",
+            "Benchmark_Results_Feb-22-2022_21h04m01s",
+            "Benchmark_Results_Feb-22-2022_21h04m02s",
+            "Benchmark_Results_Feb-22-2022_21h04m03s",
+            "Benchmark_Results_Feb-22-2022_21h04m04s"
+        ],
+        "Write": [
+            "Benchmark_Results_Feb-22-2022_21h05m00s",
+            "Benchmark_Results_Feb-22-2022_21h05m01s",
+            "Benchmark_Results_Feb-22-2022_21h05m02s",
+            "Benchmark_Results_Feb-22-2022_21h05m03s",
+            "Benchmark_Results_Feb-22-2022_21h05m04s"
+        ]
+    }
 }

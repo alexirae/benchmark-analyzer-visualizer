@@ -28,13 +28,10 @@
     <body>
         <p><b>Select Benchmark Result:</b></p>
         
-        <label>
-            Operation:
-            <select id="operations">
-                <!-- Combobox will be populated from JSON File -->
-            </select>
-        </label>
-        
+		<div id="benchmark_filters">
+			<!-- Comboboxes container -->
+		</div>
+		
         <br><br>
         
         <select id="benchmarks">
@@ -69,6 +66,7 @@
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script src="../benchmark_visualizer_common/benchmark_visualizer_utils.js"></script>
+		<script src="../benchmark_visualizer_common/benchmark_visualizer_common.js"></script>
         <script src="../benchmark_visualizer_common/benchmark_visualizer_common_single.js"></script>
         <script src="benchmark_visualizer_single.js"></script>
     </body>
