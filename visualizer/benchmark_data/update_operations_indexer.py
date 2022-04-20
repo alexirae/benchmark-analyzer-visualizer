@@ -27,7 +27,7 @@ def runIndexer(kwargs=None):
                         type=bool,
                         required=False,
                         default=False,
-                        help="(Optional) TODO.")
+                        help="(Optional) If enabled the entry point for the indexer JSON file will be changed to PROJECTS (instead of OPERATIONS).")
 
     args = parser.parse_args()
 
