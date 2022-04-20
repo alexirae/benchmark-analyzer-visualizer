@@ -34,20 +34,23 @@ def runIndexer(kwargs=None):
     # Input Params
     multi_project = args.multi_project
     
-    current_path = os.path.abspath(os.getcwd())
+    benchmark_data_path = os.path.abspath(os.getcwd())
 
-    operations = [file for file in os.listdir(current_path) if os.path.isdir(os.path.join(current_path, file))]
+    operations = [file for file in os.listdir(benchmark_data_path) if os.path.isdir(os.path.join(benchmark_data_path, file))]
     
     operations_dict = {}
     
     for operation in operations:
         benchmark_results_for_operation = []
         
-        for benchmark_file in os.listdir(os.path.join(current_path, operation)):
-            benchmark_file_without_extension = os.path.splitext(benchmark_file)[0]
-            benchmark_results_for_operation.append(benchmark_file_without_extension)
-                               
-        operations_dict[operation] = benchmark_results_for_operation
+        operation_dir = os.path.join(benchmark_data_path, operation)
+        
+        for benchmark_file in os.listdir(os.path.join(benchmark_data_path, operation)):
+            if os.path.isfile(os.path.join(operation_dir, benchmark_file)):
+                benchmark_file_without_extension = os.path.splitext(benchmark_file)[0]
+                benchmark_results_for_operation.append(benchmark_file_without_extension)
+        
+        operations_dict[operation] = operations_dict[operation] = benchmark_results_for_operation if len(benchmark_results_for_operation) > 0 else ""
     
     entry_point = "PROJECTS" if multi_project else "OPERATIONS"
     
