@@ -8,13 +8,6 @@ const one_over_sqrt_twoPI = 1.0 / Math.sqrt(twoPI);
 //------------------------------------------------------------------------------------------------
 // Utils Functions
 //------------------------------------------------------------------------------------------------
-function getIntegerPart(num)
-{
-    return ~~num;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 function arange(start, stop, step)
 {
     step = step || 1;
@@ -46,7 +39,7 @@ function getKDE(samples, x_range, std_dev)
     const numSamples = samples.length;
     const bwScott    = 1.06 * std_dev * Math.pow(numSamples, -1/5);
 	
-	const numSamplex_x_bwScott = numSamples * bwScott;
+	const numSamples_x_bwScott = numSamples * bwScott;
 
     for (i = 0; i < x_range.length; ++i)
     {
@@ -57,7 +50,7 @@ function getKDE(samples, x_range, std_dev)
             temp = temp + gaussKDE(x_range[i], samples[j], bwScott);
         }
         
-        kde.push(1.0 / numSamplex_x_bwScott * temp);
+        kde.push(1.0 / numSamples_x_bwScott * temp);
     }
     
     return kde;

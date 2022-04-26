@@ -4,9 +4,9 @@ function generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples)
 {
     const name = benchmarkInfo["name"];
     
-    const distLength = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"]);
-    const xMin       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2);
-    const xMax       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2);
+    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
+    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
+    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
 
     // Histogram Plot traces
     let traces = [];
@@ -68,9 +68,9 @@ function generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples)
 {
     const name = benchmarkInfo["name"];
     
-    const distLength = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"]);
-    const xMin       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2);
-    const xMax       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2);
+    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
+    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
+    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
     
     const kdeResolution = distLength * 0.01;
     
@@ -159,9 +159,9 @@ function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
     
     const name = benchmarkInfo["name"];
     
-    const distLength = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"]);
-    const xMin       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2);
-    const xMax       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2);
+    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
+    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
+    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
 
     // Box Plot traces
     let traces = [];

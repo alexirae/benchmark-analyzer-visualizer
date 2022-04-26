@@ -63,9 +63,9 @@ function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkS
 {
     const outliersState = showOutliers ? "With outliers" : "Without outliers";
     
-    const distLength = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"]);
-    const xMin       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2);
-    const xMax       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2);
+    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
+    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
+    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
     
     const kdeResolution = distLength * 0.01;
     
@@ -155,9 +155,9 @@ function addDensity3DPlotTraces(density3DItems, itemColor, benchmarkInfo, benchm
 {
     const outliersState = showOutliers ? "With outliers" : "Without outliers";
     
-    const distLength = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"]);
-    const xMin       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2);
-    const xMax       = getIntegerPart(benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2);
+    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
+    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
+    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
     
     const kdeResolution = distLength * 0.01;
     

@@ -9,12 +9,12 @@ class BenchmarkStatsContainer:
         self.minimum              = 0.0
         self.lower_fence          = 0.0
         self.q1                   = 0.0
-        self.mean                 = 0.0
         self.median               = 0.0
         self.q3                   = 0.0
         self.upper_fence          = 0.0
         self.maximum              = 0.0
         self.iqr                  = 0.0
+        self.mean                 = 0.0
         self.std_dev              = 0.0
         self.std_err              = 0.0
         self.std_err_percentage   = 0.0
@@ -63,12 +63,12 @@ class BenchmarkResultsContainer:
             "Min"                       : "%.3f" % stats_to_process.minimum +     " ms",
             "Lower Fence"               : "%.3f" % stats_to_process.lower_fence + " ms",
             "Q1"                        : "%.3f" % stats_to_process.q1 +          " ms",
-            "Mean"                      : "%.3f" % stats_to_process.mean +        " ms",
             "Median"                    : "%.3f" % stats_to_process.median +      " ms",
             "Q3"                        : "%.3f" % stats_to_process.q3 +          " ms",
             "Upper Fence"               : "%.3f" % stats_to_process.upper_fence + " ms",
             "Max"                       : "%.3f" % stats_to_process.maximum +     " ms",
             "InterQuartile Range (IQR)" : "%.3f" % stats_to_process.iqr +         " ms",
+            "Mean"                      : "%.3f" % stats_to_process.mean +        " ms",
             "Standard Deviation"        : "%.3f" % stats_to_process.std_dev +     " ms",
             "Standard Error"            : f'{stats_to_process.std_err:.3f}' + " ms (" + f'{stats_to_process.std_err_percentage:.2f}' + "%)",
             "Margin"                    : f'{stats_to_process.margin:.3f}' + " ms (" + f'{stats_to_process.margin_percentage:.2f}' + "% of Mean)",

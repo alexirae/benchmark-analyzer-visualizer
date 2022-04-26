@@ -1,12 +1,12 @@
 //--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
-function generateComboBox(id)
+function createComboBox(id)
 {
 	// Create <select> HTML tag
 	let comboBox = document.createElement("select");
 
-	comboBox.id = id;
+	comboBox.id = id.toLowerCase();
 	
 	return comboBox;
 }
@@ -33,26 +33,27 @@ function populateOperationsComboBox(comboBoxFunction)
     {
         $.each(jsonObjects, function(key)
         {
-			let lowerCaseKey = key.toLowerCase();
+			// Create ComboBox
+			comboBox = createComboBox(key);
 			
-			comboBox = generateComboBox(lowerCaseKey);
-			
-			comboBox.onchange = function()
-			{
-				comboBoxFunction();
-			};
-	
-			// Create the options for the comboBox
+			// Add ComboBox options
 			addComboBoxOption(comboBox, 0, key, true, true);
 			
 			let i = 1;
 
-			$.each(jsonObjects[key], function(operation)
+			$.each(jsonObjects[key], function(optionText)
 			{
-				addComboBoxOption(comboBox, i, operation, false, false);
+				addComboBoxOption(comboBox, i, optionText, false, false);
 				i++;
 			});
 			
+			// Assign onchange logic
+			comboBox.onchange = function()
+			{
+				comboBoxFunction();
+			};
+			
+			// Add to DOM
 			document.getElementById("benchmark_filters").appendChild(comboBox);
         });
     });
