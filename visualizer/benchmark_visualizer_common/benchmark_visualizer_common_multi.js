@@ -151,6 +151,44 @@ function displayDensityPlot(densityItems)
 //--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
+function clearDisplayedBenchmarkInfo()
+{
+    $("#benchmark_results_plot_density").empty();
+    $("#benchmark_results_plot_box").empty();
+
+    // Only for compare mode
+    if ($("#comparison_results").length > 0)
+    {
+        $("#comparison_results").empty();
+    }
+}
+
+function getJSONData(jsonFilePath)
+{
+    return new Promise(function(resolve, reject)
+    {
+        let xhttp = new XMLHttpRequest();
+        
+        xhttp.onreadystatechange = function()
+        {
+            if(this.readyState == 4)
+            {
+                if(this.status == 200)
+                {
+                    resolve(JSON.parse(this.responseText));
+                }
+                else
+                {
+                    reject('getJSONData call Failed');  
+                }
+            }
+        };
+
+        xhttp.open("GET", jsonFilePath);
+        xhttp.send();
+    });
+}
+
 function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
 {
     // Create calls to collect JSON benchmark data
@@ -203,36 +241,6 @@ function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
     });
 }
 
-function getJSONData(jsonFilePath)
-{
-    return new Promise(function(resolve, reject)
-    {
-        let xhttp = new XMLHttpRequest();
-        
-        xhttp.onreadystatechange = function()
-        {
-            if(this.readyState == 4)
-            {
-                if(this.status == 200)
-                {
-                    resolve(JSON.parse(this.responseText));
-                }
-                else
-                {
-                    reject('getJSONData call Failed');  
-                }
-            }
-        };
-
-        xhttp.open("GET", jsonFilePath);
-        xhttp.send();
-    });
-}
-
-
-//--------------------------------------------------------------------------------------------------
-// Functions called from events
-//--------------------------------------------------------------------------------------------------
 function populateBenchmarkListComboBox(comboboxName)
 {
     let benchmarkListComboBox = $(comboboxName);
@@ -253,6 +261,8 @@ function populateBenchmarkListComboBox(comboboxName)
             benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(operationBenchmarkList[i]));
         } 
     });
+
+    clearDisplayedBenchmarkInfo();
 }
 
 function createOperationsFilter()

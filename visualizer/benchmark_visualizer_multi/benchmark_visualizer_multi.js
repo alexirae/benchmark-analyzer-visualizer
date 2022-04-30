@@ -1,37 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
-function getBenchmarkDataInRange()
-{
-	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
-	
-    const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
-    const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
-
-    if (operationsSelectedIndex     == undefined || 
-        benchmarkStartSelectedIndex == undefined || 
-        benchmarkEndSelectedIndex   == undefined || 
-        operationsSelectedIndex     == 0         || 
-        benchmarkStartSelectedIndex == 0         || 
-        benchmarkEndSelectedIndex   == 0)
-    {
-        return;
-    }
-    
-    let benchmarkIdsToPlot = [];
-
-    const rangeSize = $("#benchmark_start").children("option").length;
-    
-    for (let i = benchmarkStartSelectedIndex; i < rangeSize; i++)
-    {
-        benchmarkIdsToPlot.push($("#benchmark_start option[value=" + (i).toString() + "]").text());
-    }
-
-    const operation = $("#operations option:selected").text();
-    
-    retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot, false);
-}
-
 function updateBenchmarkListComboBox(comboboxName, value, operation)
 {
     const combobox = $(comboboxName);
@@ -117,6 +86,37 @@ function updateBenchmarkListComboBox(comboboxName, value, operation)
             }
         }
     });
+}
+
+function getBenchmarkDataInRange()
+{
+	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
+	
+    const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
+    const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
+
+    if (operationsSelectedIndex     == undefined || 
+        benchmarkStartSelectedIndex == undefined || 
+        benchmarkEndSelectedIndex   == undefined || 
+        operationsSelectedIndex     == 0         || 
+        benchmarkStartSelectedIndex == 0         || 
+        benchmarkEndSelectedIndex   == 0)
+    {
+        return;
+    }
+    
+    let benchmarkIdsToPlot = [];
+
+    const rangeSize = $("#benchmark_start").children("option").length;
+    
+    for (let i = benchmarkStartSelectedIndex; i < rangeSize; i++)
+    {
+        benchmarkIdsToPlot.push($("#benchmark_start option[value=" + (i).toString() + "]").text());
+    }
+
+    const operation = $("#operations option:selected").text();
+    
+    retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot, false);
 }
 
 
