@@ -6,7 +6,10 @@ function getBenchmarkData()
 	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
     const benchmarkSelectedIndex  = $("#benchmarks").prop("selectedIndex");
 
-    if (operationsSelectedIndex == 0 || benchmarkSelectedIndex == 0)
+    if (operationsSelectedIndex == undefined || 
+        benchmarkSelectedIndex  == undefined || 
+        operationsSelectedIndex == 0         || 
+        benchmarkSelectedIndex  == 0)
     {
         return;
     }
