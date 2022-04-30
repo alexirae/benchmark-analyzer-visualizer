@@ -9,33 +9,16 @@ function clearDisplayedBenchmarkInfo()
     $("#benchmark_results_plot_box").empty();
 }
 
-function populateBenchmarkListComboBox()
+function createOperationsFilter()
 {
-    let benchmarkListComboBox = $("#benchmarks");
-
-    benchmarkListComboBox.empty();
-
-    benchmarkListComboBox.append("<option selected='true' value='0' disabled>Choose Benchmark Result</option>");
-    benchmarkListComboBox.prop("selectedIndex", 0);
-    
     const operation = $("#operations option:selected").text();
 
     $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
         const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
-        
-        for (let i = 0; i < operationBenchmarkList.length; i++)
-        {
-            benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(operationBenchmarkList[i]));
-        } 
+
+        populateBenchmarkListComboBox("#benchmarks", operationBenchmarkList);
     });
-
-    clearDisplayedBenchmarkInfo();
-}
-
-function createOperationsFilter()
-{
-	populateBenchmarkListComboBox();
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -54,11 +37,11 @@ function getBenchmarkData()
         return;
     }
 
-    const showOutliers = $("#showOutliers").prop("checked");
     const operation    = $("#operations option:selected").text();
     const benchmarkId  = $("#benchmarks option:selected").text();
-    
     const operationBenchmarkPath = "../benchmark_data/" + operation + "/" + benchmarkId + ".json";
+
+    const showOutliers = $("#showOutliers").prop("checked");
     
     $.getJSON(operationBenchmarkPath, function(benchmarkInfo)
     {

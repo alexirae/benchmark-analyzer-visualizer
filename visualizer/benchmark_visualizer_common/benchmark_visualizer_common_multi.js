@@ -151,18 +151,6 @@ function displayDensityPlot(densityItems)
 //--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
-function clearDisplayedBenchmarkInfo()
-{
-    $("#benchmark_results_plot_density").empty();
-    $("#benchmark_results_plot_box").empty();
-
-    // Only for compare mode
-    if ($("#comparison_results").length > 0)
-    {
-        $("#comparison_results").empty();
-    }
-}
-
 function getJSONData(jsonFilePath)
 {
     return new Promise(function(resolve, reject)
@@ -241,32 +229,15 @@ function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
     });
 }
 
-function populateBenchmarkListComboBox(comboboxName)
+function createOperationsFilter()
 {
-    let benchmarkListComboBox = $(comboboxName);
-
-    benchmarkListComboBox.empty();
-
-    benchmarkListComboBox.append("<option selected='true' value='0' disabled>Choose Benchmark Result</option>");
-    benchmarkListComboBox.prop("selectedIndex", 0);
-
-    const operation = $("#operations option:selected").text()
+    const operation = $("#operations option:selected").text();
 
     $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
         const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
-        
-        for (let i = 0; i < operationBenchmarkList.length; i++)
-        {
-            benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(operationBenchmarkList[i]));
-        } 
+
+        populateBenchmarkListComboBox("#benchmark_start", operationBenchmarkList);
+        populateBenchmarkListComboBox("#benchmark_end",   operationBenchmarkList);
     });
-
-    clearDisplayedBenchmarkInfo();
-}
-
-function createOperationsFilter()
-{
-	populateBenchmarkListComboBox("#benchmark_start");
-	populateBenchmarkListComboBox("#benchmark_end");
 };

@@ -23,6 +23,23 @@ function addComboBoxOption(comboBox, value, innerHTML, selected, disabled)
 	comboBox.add(comboBoxOption);
 }
 
+function populateBenchmarkListComboBox(comboboxName, benchmarkResultsList)
+{
+    let benchmarkListComboBox = $(comboboxName);
+
+    benchmarkListComboBox.empty();
+
+    benchmarkListComboBox.append("<option selected='true' value='0' disabled>Choose Benchmark Result</option>");
+    benchmarkListComboBox.prop("selectedIndex", 0);
+    
+    for (let i = 0; i < benchmarkResultsList.length; i++)
+    {
+        benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(benchmarkResultsList[i]));
+    }
+
+    clearDisplayedBenchmarkInfo();
+}
+
 
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)

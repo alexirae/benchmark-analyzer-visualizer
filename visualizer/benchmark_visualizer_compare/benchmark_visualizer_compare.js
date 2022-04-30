@@ -1,4 +1,14 @@
 //--------------------------------------------------------------------------------------------------
+// Helper Functions
+//--------------------------------------------------------------------------------------------------
+function clearDisplayedBenchmarkInfo()
+{
+    $("#benchmark_results_plot_density").empty();
+    $("#benchmark_results_plot_box").empty();
+    $("#comparison_results").empty();
+}
+
+//--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
 function updateBenchmarkListComboBox(comboboxName, value, operation)
