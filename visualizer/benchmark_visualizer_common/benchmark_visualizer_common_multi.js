@@ -205,6 +205,58 @@ function displayDensity3DPlot(density3DItems)
 //--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
+function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
+{
+    // Create calls to collect JSON benchmark data
+    let calls = [];
+
+    for (let i = 0; i < benchmarkIds.length; i++)
+    {
+        let jsonFilePath = "../benchmark_data/" + operation + "/" + benchmarkIds[i] + ".json";
+        calls.push(getJSONData(jsonFilePath));
+    }
+
+    // Wait for all calls to be done so we can display plots
+    Promise.all(calls).then(function(benchmarkInfos)
+    {
+        const showOutliers = $("#showOutliers").prop("checked");
+        
+        if (isCompareMode)
+        {
+            addTable("#comparison_results", benchmarkInfos, showOutliers);
+        }
+        
+        let boxPlotItems = [];
+        let densityItems = [];
+
+        for (let i = 0; i < benchmarkInfos.length; i++)
+        {
+            const benchmarkInfo = benchmarkInfos[i];
+            
+            let benchmarkSamples = [...benchmarkInfo["sorted_no_outliers_samples"]];
+    
+            if (showOutliers)
+            {
+                benchmarkSamples.unshift(...benchmarkInfo["sorted_lower_outliers_samples"]);
+                benchmarkSamples.push(...benchmarkInfo["sorted_upper_outliers_samples"]);
+            }
+            
+            const itemColor = getRandomHexColor();
+            
+            addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
+            addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
+        }
+        
+        // Show Plots
+        displayBoxPlot(boxPlotItems);
+        displayDensityPlot(densityItems);
+        
+    }).catch(function(reason)
+    {
+        console.log(reason);
+    });
+}
+
 function getJSONData(jsonFilePath)
 {
     return new Promise(function(resolve, reject)
@@ -257,7 +309,7 @@ function populateBenchmarkListComboBox(comboboxName)
     });
 }
 
-function comboBoxFunction()
+function createOperationsFilter()
 {
 	populateBenchmarkListComboBox("#benchmark_start");
 	populateBenchmarkListComboBox("#benchmark_end");

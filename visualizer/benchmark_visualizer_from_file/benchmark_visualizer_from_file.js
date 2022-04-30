@@ -3,17 +3,7 @@
 //--------------------------------------------------------------------------------------------------
 function getBenchmarkData(benchmarkInfo)
 {
-	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
-    const benchmarkSelectedIndex  = $("#benchmarks").prop("selectedIndex");
-
-    if (operationsSelectedIndex == 0 || benchmarkSelectedIndex == 0)
-    {
-        return;
-    }
-
     const showOutliers = $("#showOutliers").prop("checked");
-    const operation    = $("#operations option:selected").text();
-    const benchmarkId  = $("#benchmarks option:selected").text();
 
     addTable("#benchmark_statistics", [benchmarkInfo], showOutliers);
     generateAndDisplayPlots(benchmarkInfo, showOutliers);

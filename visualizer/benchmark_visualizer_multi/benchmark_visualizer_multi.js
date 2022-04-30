@@ -1,57 +1,37 @@
 //--------------------------------------------------------------------------------------------------
-// Helper Functions
-//--------------------------------------------------------------------------------------------------
-function retrieveAndDisplayJSONData(operation, benchmarkIds)
-{
-    // Create calls to collect JSON benchmark data
-    let calls = [];
-
-    for (let i = 0; i < benchmarkIds.length; i++)
-    {
-        let jsonFilePath = "../benchmark_data/" + operation + "/" + benchmarkIds[i] + ".json";
-        calls.push(getJSONData(jsonFilePath));
-    }
-
-    // Wait for all calls to be done so we can display plots
-    Promise.all(calls).then(function(benchmarkInfos)
-    {
-        const showOutliers = $("#showOutliers").prop("checked");
-        
-        let boxPlotItems   = [];
-        let densityItems   = [];
-
-        for (let i = 0; i < benchmarkInfos.length; i++)
-        {
-            const benchmarkInfo = benchmarkInfos[i];
-            
-            let benchmarkSamples = [...benchmarkInfo["sorted_no_outliers_samples"]];
-    
-            if (showOutliers)
-            {
-                benchmarkSamples.unshift(...benchmarkInfo["sorted_lower_outliers_samples"]);
-                benchmarkSamples.push(...benchmarkInfo["sorted_upper_outliers_samples"]);
-            }
-            
-            const itemColor = getRandomHexColor();
-
-            addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
-            addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
-        }
-        
-        // Show Plots
-        displayBoxPlot(boxPlotItems);
-        displayDensityPlot(densityItems);
-        
-    }).catch(function(reason)
-    {
-        console.log(reason);
-    });
-}
-
-
-//--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
+function getBenchmarkDataInRange()
+{
+	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
+	
+    const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
+    const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
+
+    if (operationsSelectedIndex     == undefined || 
+        benchmarkStartSelectedIndex == undefined || 
+        benchmarkEndSelectedIndex   == undefined || 
+        operationsSelectedIndex     == 0         || 
+        benchmarkStartSelectedIndex == 0         || 
+        benchmarkEndSelectedIndex   == 0)
+    {
+        return;
+    }
+    
+    let benchmarkIdsToPlot = [];
+
+    const rangeSize = $("#benchmark_start").children("option").length;
+    
+    for (let i = benchmarkStartSelectedIndex; i < rangeSize; i++)
+    {
+        benchmarkIdsToPlot.push($("#benchmark_start option[value=" + (i).toString() + "]").text());
+    }
+
+    const operation = $("#operations option:selected").text();
+    
+    retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot, false);
+}
+
 function updateBenchmarkListComboBox(comboboxName, value, operation)
 {
     const combobox = $(comboboxName);
@@ -104,7 +84,7 @@ function updateBenchmarkListComboBox(comboboxName, value, operation)
                     benchmarkIdsToPlot.push(benchmarkIds[i]);
                 }
 
-                retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot);
+                retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot, false);
             }
         }
         else if (comboboxName == "#benchmark_end")
@@ -133,7 +113,7 @@ function updateBenchmarkListComboBox(comboboxName, value, operation)
                     benchmarkIdsToPlot.push(benchmarkIds[i]);
                 }
                 
-                retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot);
+                retrieveAndDisplayJSONData(operation, benchmarkIdsToPlot, false);
             }
         }
     });
@@ -155,37 +135,18 @@ $("#benchmark_end").change(function()
     updateBenchmarkListComboBox("#benchmark_start", $(this).val(), operation);
 });
 
-
-//--------------------------------------------------------------------------------------------------
-// Functions called from HTML
-//--------------------------------------------------------------------------------------------------
-function getBenchmarkDataInRange()
+$("#showOutliers").change(function()
 {
-	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
-	
-    const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
-    const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
+    getBenchmarkDataInRange();
+});
 
-    if (operationsSelectedIndex == 0 || benchmarkStartSelectedIndex == 0 || benchmarkEndSelectedIndex == 0)
-    {
-        return;
-    }
-    
-    const operation = $("#operations option:selected").text();
-    const rangeSize = $("#benchmark_start").children("option").length;
-    
-    let benchmarkIds = [];
-    
-    for (let i = benchmarkStartSelectedIndex; i < rangeSize; i++)
-    {
-        benchmarkIds.push($("#benchmark_start option[value=" + (i).toString() + "]").text());
-    }
-    
-    retrieveAndDisplayJSONData(operation, benchmarkIds);
-}
+$("#hideOutliers").change(function()
+{
+    getBenchmarkDataInRange();
+});
 
 
 //--------------------------------------------------------------------------------------------------
 // Main
 //--------------------------------------------------------------------------------------------------
-populateOperationsComboBox(comboBoxFunction);
+createBenchmarkFilters(createOperationsFilter);

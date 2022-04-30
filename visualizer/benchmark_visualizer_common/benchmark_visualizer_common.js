@@ -27,7 +27,7 @@ function addComboBoxOption(comboBox, value, innerHTML, selected, disabled)
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)
 //--------------------------------------------------------------------------------------------------
-function populateOperationsComboBox(comboBoxFunction)
+function createBenchmarkFilters(createOperationsFilterFunction)
 {
 	$.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
@@ -50,7 +50,7 @@ function populateOperationsComboBox(comboBoxFunction)
 			// Assign onchange logic
 			comboBox.onchange = function()
 			{
-				comboBoxFunction();
+				createOperationsFilterFunction();
 			};
 			
 			// Add to DOM

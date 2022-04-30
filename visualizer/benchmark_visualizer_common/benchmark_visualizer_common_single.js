@@ -1,5 +1,6 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
+//--------------------------------------------------------------------------------------------------
+// Plot Functions
+//--------------------------------------------------------------------------------------------------
 function generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples)
 {
     const name = benchmarkInfo["name"];
@@ -61,8 +62,6 @@ function generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples)
         }
     );
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 function generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples)
 {
@@ -151,8 +150,6 @@ function generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples)
     );
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
 {
     const showOutliers = outliersState == "With outliers";
@@ -225,8 +222,6 @@ function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
     )
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 function generateAndDisplayPlots(benchmarkInfo, showOutliers)
 {
     let outliersState    = "Without outliers";
@@ -244,5 +239,3 @@ function generateAndDisplayPlots(benchmarkInfo, showOutliers)
     generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples);
     generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples);
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////

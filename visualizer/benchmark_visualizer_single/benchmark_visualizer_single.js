@@ -1,46 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
-function populateBenchmarkListComboBox()
-{
-    let benchmarkListComboBox = $("#benchmarks");
-
-    benchmarkListComboBox.empty();
-
-    benchmarkListComboBox.append("<option selected='true' value='0' disabled>Choose Benchmark Result</option>");
-    benchmarkListComboBox.prop("selectedIndex", 0);
-    
-    const operation = $("#operations option:selected").text();
-
-    $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
-    {
-        const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
-        
-        for (let i = 0; i < operationBenchmarkList.length; i++)
-        {
-            benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(operationBenchmarkList[i]));
-        } 
-    });
-}
-
-function comboBoxFunction()
-{
-	populateBenchmarkListComboBox();
-};
-
-
-//--------------------------------------------------------------------------------------------------
-// Events
-//--------------------------------------------------------------------------------------------------
-$("#benchmarks").change(function()
-{
-    getBenchmarkData();
-});
-
-
-//--------------------------------------------------------------------------------------------------
-// Functions called from HTML
-//--------------------------------------------------------------------------------------------------
 function getBenchmarkData()
 {
 	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
@@ -64,8 +24,54 @@ function getBenchmarkData()
     });
 }
 
+function populateBenchmarkListComboBox()
+{
+    let benchmarkListComboBox = $("#benchmarks");
+
+    benchmarkListComboBox.empty();
+
+    benchmarkListComboBox.append("<option selected='true' value='0' disabled>Choose Benchmark Result</option>");
+    benchmarkListComboBox.prop("selectedIndex", 0);
+    
+    const operation = $("#operations option:selected").text();
+
+    $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
+    {
+        const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
+        
+        for (let i = 0; i < operationBenchmarkList.length; i++)
+        {
+            benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(operationBenchmarkList[i]));
+        } 
+    });
+}
+
+function createOperationsFilter()
+{
+	populateBenchmarkListComboBox();
+};
+
+
+//--------------------------------------------------------------------------------------------------
+// Events
+//--------------------------------------------------------------------------------------------------
+$("#benchmarks").change(function()
+{
+    getBenchmarkData();
+});
+
+$("#showOutliers").change(function()
+{
+    getBenchmarkData();
+});
+
+$("#hideOutliers").change(function()
+{
+    getBenchmarkData();
+});
+
 
 //--------------------------------------------------------------------------------------------------
 // Main
 //--------------------------------------------------------------------------------------------------
-populateOperationsComboBox(comboBoxFunction);
+createBenchmarkFilters(createOperationsFilter);
