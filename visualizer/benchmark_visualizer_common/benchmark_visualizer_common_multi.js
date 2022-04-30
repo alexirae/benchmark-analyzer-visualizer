@@ -149,60 +149,6 @@ function displayDensityPlot(densityItems)
 
 
 //--------------------------------------------------------------------------------------------------
-// Density 3D Plot Functions
-//--------------------------------------------------------------------------------------------------
-function addDensity3DPlotTraces(density3DItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
-{
-    const outliersState = showOutliers ? "With outliers" : "Without outliers";
-    
-    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
-    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
-    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
-    
-    const kdeResolution = distLength * 0.01;
-    
-    const xRange = arange(xMin, xMax, kdeResolution);
-    const yRange = new Array(xRange.length).fill(density3DItems.length);
-    
-    const kde = getKDE(benchmarkSamples, xRange, benchmarkInfo["statistics"][outliersState]["std_dev"]);
-
-    density3DItems.push({
-        type: "scatter3d",
-        name: benchmarkInfo["name"],
-        mode: "lines",
-        x: xRange,
-        y: yRange,
-        z: kde,
-        marker:
-        {
-            color: itemColor
-        },
-    });
-}
-
-function displayDensity3DPlot(density3DItems)
-{
-    Plotly.newPlot
-    (
-        // Div
-        'benchmark_results_plot_density_3D', 
-        
-        // Data
-        density3DItems,
-        
-        // Layout
-        {
-            height: 600,
-        },
-        
-        // Plot options
-        {
-            
-        }
-    );
-}
-
-//--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
 function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
