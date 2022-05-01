@@ -1,4 +1,10 @@
 //--------------------------------------------------------------------------------------------------
+// Global Vars
+//--------------------------------------------------------------------------------------------------
+var g_benchmarkResultsArray = [];
+
+
+//--------------------------------------------------------------------------------------------------
 // Box Plot Functions
 //--------------------------------------------------------------------------------------------------
 function addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
@@ -177,14 +183,14 @@ function getJSONData(jsonFilePath)
     });
 }
 
-function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
+function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds)
 {
     // Create calls to collect JSON benchmark data
     let calls = [];
 
     for (let i = 0; i < benchmarkIds.length; i++)
     {
-        let jsonFilePath = "../benchmark_data/" + operation + "/" + benchmarkIds[i] + ".json";
+        const jsonFilePath = benchmarkJSONPath + benchmarkIds[i] + ".json";
         calls.push(getJSONData(jsonFilePath));
     }
 
@@ -193,6 +199,8 @@ function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
     {
         const showOutliers = $("#showOutliers").prop("checked");
         
+        const isCompareMode = $("#comparison_results").length > 0;
+
         if (isCompareMode)
         {
             addTable("#comparison_results", benchmarkInfos, showOutliers);
@@ -229,15 +237,98 @@ function retrieveAndDisplayJSONData(operation, benchmarkIds, isCompareMode)
     });
 }
 
-function createOperationsFilter()
+function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedItem, range, benchmarkJSONPath)
 {
-    const operation = $("#operations option:selected").text();
-
-    $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
+    // Set combobox selection and plot
+    if (prevSelectedIndex != 0)
     {
-        const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
+        const idx = range.indexOf(prevSelectedItem) + 1;
+        combobox.prop("selectedIndex", idx);
 
-        populateBenchmarkListComboBox("#benchmark_start", operationBenchmarkList);
-        populateBenchmarkListComboBox("#benchmark_end",   operationBenchmarkList);
-    });
-};
+        let benchmarkIdsToPlot = getBenchmarkIdsToPlot();
+
+        retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot);
+    }
+}
+
+function clearBenchmarkResults()
+{
+    $("#benchmark_start").empty();
+    $("#benchmark_end").empty();
+}
+
+function populateBenchmarkListFromFilter(filter)
+{
+    populateBenchmarkListComboBox("#benchmark_start", filter);
+    populateBenchmarkListComboBox("#benchmark_end",   filter);
+}
+
+function getBenchmarkResultsArray()
+{
+	return g_benchmarkResultsArray;
+}
+
+
+//--------------------------------------------------------------------------------------------------
+// Functions called from events
+//--------------------------------------------------------------------------------------------------
+function updateBenchmarkListComboBox(comboboxName, firstBenchmarkComboBoxRange, secondBenchmarkComboBoxRange)
+{
+    // Cache previous selection
+    const prevSelectedIndex = $(comboboxName + " option:selected").index();
+    const prevSelectedItem  = $(comboboxName + " option:selected").text();
+    
+    // Reset Combobox
+    const combobox = $(comboboxName);
+    combobox.empty();
+    combobox.append("<option selected='true' disabled>Choose Benchmark Result</option>");
+    
+    const benchmarkJSONPath = getBenchmarkJSONPathFromFilter();
+
+    // Update Combobox accordingly and only display benchmark items based on combobox selection
+    if (comboboxName == "#benchmark_start")
+    {
+        // Fill combobox with new range
+        for (let i = 0; i < firstBenchmarkComboBoxRange.length; i++)
+        {
+            const benchmarkId = firstBenchmarkComboBoxRange[i];
+            combobox.append($("<option></option>").attr("value", i + 1).text(benchmarkId));
+        }
+        
+        setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedItem, firstBenchmarkComboBoxRange, benchmarkJSONPath);
+    }
+    else if (comboboxName == "#benchmark_end")
+    {
+        // Fill combobox with new range
+        for (let i = 0; i < secondBenchmarkComboBoxRange.length; i++)
+        {
+            const benchmarkId = secondBenchmarkComboBoxRange[i];
+            combobox.append($("<option></option>").attr("value", firstBenchmarkComboBoxRange.length + i + 1).text(benchmarkId));
+        }
+        
+        setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedItem, secondBenchmarkComboBoxRange, benchmarkJSONPath);
+    }
+}
+
+function getBenchmarkData()
+{
+	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
+	
+    const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
+    const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
+
+    if (operationsSelectedIndex     == undefined || 
+        benchmarkStartSelectedIndex == undefined || 
+        benchmarkEndSelectedIndex   == undefined || 
+        operationsSelectedIndex     == 0         || 
+        benchmarkStartSelectedIndex == 0         || 
+        benchmarkEndSelectedIndex   == 0)
+    {
+        return;
+    }
+
+    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter();
+    const benchmarkIdsToPlot = getBenchmarkIdsToPlot();
+
+    retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot);
+}

@@ -3,23 +3,22 @@
 //--------------------------------------------------------------------------------------------------
 function clearDisplayedBenchmarkInfo()
 {
-    $("#benchmark_statistics").empty();
-    $("#benchmark_results_plot_histogram").empty();
     $("#benchmark_results_plot_density").empty();
     $("#benchmark_results_plot_box").empty();
+    $("#benchmark_results_plot_histogram").empty();
+    $("#benchmark_statistics").empty();
 }
 
-function createOperationsFilter()
+function clearBenchmarkResults()
 {
-    const operation = $("#operations option:selected").text();
+    $("#benchmarks").empty();
+}
 
-    $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
-    {
-        const operationBenchmarkList = jsonObjects["OPERATIONS"][operation];
+function populateBenchmarkListFromFilter(filter)
+{
+    populateBenchmarkListComboBox("#benchmarks", filter);
+}
 
-        populateBenchmarkListComboBox("#benchmarks", operationBenchmarkList);
-    });
-};
 
 //--------------------------------------------------------------------------------------------------
 // Functions called from events
@@ -37,14 +36,13 @@ function getBenchmarkData()
         return;
     }
 
-    const operation    = $("#operations option:selected").text();
-    const benchmarkId  = $("#benchmarks option:selected").text();
-    const operationBenchmarkPath = "../benchmark_data/" + operation + "/" + benchmarkId + ".json";
+    const benchmarkJSONPath      = getBenchmarkJSONPathFromFilter();
+    const benchmarkFileName      = $("#benchmarks option:selected").text() + ".json"
+    const operationBenchmarkPath = benchmarkJSONPath + benchmarkFileName;
 
-    const showOutliers = $("#showOutliers").prop("checked");
-    
     $.getJSON(operationBenchmarkPath, function(benchmarkInfo)
     {
+        const showOutliers = $("#showOutliers").prop("checked");
         addTable("#benchmark_statistics", [benchmarkInfo], showOutliers);
         generateAndDisplayPlots(benchmarkInfo, showOutliers);
     });
