@@ -222,7 +222,7 @@ function getJSONData(jsonFilePath)
     });
 }
 
-function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds)
+function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds, plotItemsColor)
 {
     // Create calls to collect JSON benchmark data
     let calls = [];
@@ -237,7 +237,7 @@ function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds)
     Promise.all(calls).then(function(benchmarkInfos)
     {
         $("#optionsPanel").show();
-        
+
         const showOutliers = $("#showOutliers").prop("checked");
         
         const isCompareMode = $("#comparison_results").length > 0;
@@ -261,8 +261,8 @@ function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds)
                 benchmarkSamples.unshift(...benchmarkInfo["sorted_lower_outliers_samples"]);
                 benchmarkSamples.push(...benchmarkInfo["sorted_upper_outliers_samples"]);
             }
-            
-            const itemColor = getRandomHexColor();
+
+            const itemColor = plotItemsColor[i];
             
             addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
             addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
@@ -288,7 +288,14 @@ function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedIt
 
         let benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
-        retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot);
+        let plotItemsColor = [];
+
+        for (let i = 0; i < benchmarkIdsToPlot.length; ++i)
+        {
+            plotItemsColor.push(getRandomHexColor());
+        }
+
+        retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
     }
 }
 
@@ -371,5 +378,13 @@ function getBenchmarkData()
     const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter();
     const benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
-    retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot);
+    // Keep items color when switching between outliers modes
+    let plotItemsColor = [];
+
+    for (let i = 0; i < benchmark_results_plot_box.data.length; ++i)
+    {
+        plotItemsColor.push(benchmark_results_plot_box.data[i].marker.color);
+    }
+
+    retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
 }
