@@ -118,6 +118,7 @@ function createFilter(jsonObjects)
 
             clearDisplayedBenchmarkInfo();
             clearBenchmarkResults();
+			resetOptionsPanel();
         }
 
 		createComboBox(currentFilter, key, function() { filterMarching(comboboxId, currentFilter); });
@@ -165,9 +166,16 @@ function populateBenchmarkListComboBox(comboboxName, benchmarkResultsList)
     }
 	
 	clearDisplayedBenchmarkInfo();
+	resetOptionsPanel();
 
 	// Persist benchmark results list (deep copy)
 	g_benchmarkResultsArray = JSON.parse(JSON.stringify(benchmarkResultsList));
+}
+
+function resetOptionsPanel()
+{
+    $("#optionsPanel").hide();
+    $("#showOutliers").prop("checked", true);
 }
 
 //--------------------------------------------------------------------------------------------------

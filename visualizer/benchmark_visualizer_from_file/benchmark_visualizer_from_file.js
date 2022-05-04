@@ -1,12 +1,13 @@
 //--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
-function getBenchmarkData(benchmarkInfo)
+function getBenchmarkData(contents)
 {
-    const showOutliers = $("#showOutliers").prop("checked");
-
-    addTable("#benchmark_statistics", [benchmarkInfo], showOutliers);
-    generateAndDisplayPlots(benchmarkInfo, showOutliers);
+    if (contents)
+    {
+        const benchmarkInfo = JSON.parse(contents);
+        displayJSONData(benchmarkInfo);
+    }
 }
 
 
@@ -29,11 +30,23 @@ $("#fileInput").change(function readFile(e)
         const contents = e.target.result;
         sessionStorage.setItem("fileContentPersistence", contents);
         
-        const benchmarkInfo = JSON.parse(contents);
-        getBenchmarkData(benchmarkInfo);
+        resetOptionsPanel();
+        getBenchmarkData(contents);
     };
     
     reader.readAsText(file);
+});
+
+$("#showOutliers").change(function()
+{
+    const contents = sessionStorage.getItem("fileContentPersistence");
+    getBenchmarkData(contents);
+});
+
+$("#hideOutliers").change(function()
+{
+    const contents = sessionStorage.getItem("fileContentPersistence");
+    getBenchmarkData(contents);
 });
 
 window.onunload = function()
@@ -43,15 +56,6 @@ window.onunload = function()
 
 
 //--------------------------------------------------------------------------------------------------
-// Functions called from HTML
+// Main
 //--------------------------------------------------------------------------------------------------
-function changeOutliers()
-{
-    const contents = sessionStorage.getItem("fileContentPersistence");
-    
-    if (contents)
-    {
-        const benchmarkInfo = JSON.parse(contents);
-        getBenchmarkData(benchmarkInfo);
-    }
-}
+resetOptionsPanel();

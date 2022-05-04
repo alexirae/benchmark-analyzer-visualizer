@@ -239,3 +239,16 @@ function generateAndDisplayPlots(benchmarkInfo, showOutliers)
     generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples);
     generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples);
 }
+
+
+//--------------------------------------------------------------------------------------------------
+// Helper Functions
+//--------------------------------------------------------------------------------------------------
+function displayJSONData(benchmarkInfo)
+{
+    const showOutliers = $("#showOutliers").prop("checked");
+    
+    $("#optionsPanel").show();
+    addTable("#benchmark_statistics", [benchmarkInfo], showOutliers);
+    generateAndDisplayPlots(benchmarkInfo, showOutliers);
+}

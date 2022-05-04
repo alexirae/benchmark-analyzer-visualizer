@@ -20,7 +20,7 @@
 			<!-- Comboboxes container -->
 		</div>
         
-        <br><br>
+        <br>
         
         <select id="benchmark_start">
             <!-- Combobox will be populated from JSON File -->
@@ -31,13 +31,20 @@
         </select>
         
         <br><br>
-        
-        <input type="radio" id="showOutliers" name="checkOutliers" autocomplete="off" checked />
-        <label for="showOutliers">Show Outliers</label>
-        
-        <input type="radio" id="hideOutliers" name="checkOutliers" autocomplete="off" />
-        <label for="hideOutliers">Hide Outliers</label>
 
+        <div id="optionsPanel">
+            <input type="radio" id="showOutliers" name="checkOutliers" autocomplete="off" checked />
+            <label for="showOutliers">Show Outliers</label>
+            
+            <input type="radio" id="hideOutliers" name="checkOutliers" autocomplete="off" />
+            <label for="hideOutliers">Hide Outliers</label>
+
+            <br><br>
+            <br><br>
+
+            <button type="button" id="randomizeColor">Randomize Plot Items Color</button>
+        </div>
+        
         <div id="benchmark_results_plot_box">
             <!-- Plotly chart will be drawn inside this div -->
         </div>

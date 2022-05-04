@@ -42,9 +42,7 @@ function getBenchmarkData()
 
     $.getJSON(operationBenchmarkPath, function(benchmarkInfo)
     {
-        const showOutliers = $("#showOutliers").prop("checked");
-        addTable("#benchmark_statistics", [benchmarkInfo], showOutliers);
-        generateAndDisplayPlots(benchmarkInfo, showOutliers);
+        displayJSONData(benchmarkInfo);
     });
 }
 
@@ -71,4 +69,5 @@ $("#hideOutliers").change(function()
 //--------------------------------------------------------------------------------------------------
 // Main
 //--------------------------------------------------------------------------------------------------
+resetOptionsPanel();
 createBenchmarkFilters(createOperationsFilter);
