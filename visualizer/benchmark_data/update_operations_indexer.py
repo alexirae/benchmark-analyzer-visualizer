@@ -1,8 +1,10 @@
 import argparse
+import glob
 import json
 import os
 
 from collections import defaultdict
+
 
 ##############################################################################    
 
@@ -21,25 +23,46 @@ def generateIndexerJSON(json_dict, json_file):
 ##############################################################################    
 
 def generateOperationsIndexer(benchmark_data_path):
-    operations = [file for file in os.listdir(benchmark_data_path) if os.path.isdir(os.path.join(benchmark_data_path, file))]
+    print("\n\tGenerating operations indexing:")
+    operations = [file for file in sorted(os.listdir(benchmark_data_path)) if os.path.isdir(os.path.join(benchmark_data_path, file))]
     
     operations_dict = {}
     
     for operation in operations:
+        print("\n\t\tOperation:", operation)
+        
         benchmark_results_for_operation = []
         
+        benchmark_files_paths = [f for f in glob.glob(os.path.join(benchmark_data_path, operation, "*.json"))]
+        
+        for benchmark_file_path in benchmark_files_paths:
+            benchmark_file_name = os.path.basename(benchmark_file_path)
+            benchmark_file_without_extension = os.path.splitext(benchmark_file_name)[0]
+            
+            print("\t\t\t", benchmark_file_without_extension)
+            
+            benchmark_results_for_operation.append(benchmark_file_without_extension)
+            
+        """
         operation_dir = os.path.join(benchmark_data_path, operation)
         
-        for benchmark_file in os.listdir(os.path.join(benchmark_data_path, operation)):
+        for benchmark_file in sorted(os.listdir(os.path.join(benchmark_data_path, operation))):
             if os.path.isfile(os.path.join(operation_dir, benchmark_file)):
                 benchmark_file_without_extension = os.path.splitext(benchmark_file)[0]
+                
+                print("\t\t\t", benchmark_file_without_extension)
+                
                 benchmark_results_for_operation.append(benchmark_file_without_extension)
+        """
         
         operations_dict[operation] = operations_dict[operation] = benchmark_results_for_operation if len(benchmark_results_for_operation) > 0 else ""
 
     json_dict = {"OPERATIONS" : operations_dict}
 
-    generateIndexerJSON(json_dict, "operations_indexer.json")
+    operations_indexer_json_name = "operations_indexer.json"
+    print("\n\t\t Creating", operations_indexer_json_name, "\n")
+    
+    generateIndexerJSON(json_dict, operations_indexer_json_name)
     
 ##############################################################################
 
@@ -91,31 +114,35 @@ def generateProjectIndexer(benchmark_data_path, project):
     # Collect all benchmark file paths (without extension) in a list
     benchmark_paths = []
     
-    for root, subfolders, filenames in os.walk(project_relative_path):
-        for filename in filenames:
-            if len(root) <= 1:
-                continue
-            
-            filepath = os.path.join(root, filename)
-            filepath = os.path.splitext(filepath)[0]
-            filepath = os.path.normpath(filepath)
+    benchmark_data_path_files = sorted(filter(os.path.isfile, glob.glob(project_relative_path + '/**/*', recursive=True)))
 
-            benchmark_paths.append(filepath)
+    for file_path in benchmark_data_path_files:
+        benchmark_path = os.path.splitext(file_path)[0]
+        benchmark_path = os.path.normpath(benchmark_path)
+        
+        print("\t\t\t", benchmark_path)
+        
+        benchmark_paths.append(benchmark_path)
 
     project_dict = getPathDict(benchmark_paths)
 
     # Create indexer with generated benchmark paths dictionary
+    project_indexer_json_name = project + "_indexer.json"
+    print("\n\t\t\t Creating", project_indexer_json_name)
+    
     os.chdir(benchmark_data_path)
-    generateIndexerJSON(project_dict, project + "_indexer.json")
+    generateIndexerJSON(project_dict, project_indexer_json_name)
     
 ##############################################################################    
 
 def generateMultiProjectIndexer(benchmark_data_path):
+    print("\n\tGenerating multi-project indexing:")
     # Get projects folder names
     projects = [file for file in os.listdir(benchmark_data_path) if os.path.isdir(os.path.join(benchmark_data_path, file))]
 
     # Generate an indexer for each project
     for project in projects:
+        print("\n\n\t\tProject:", project)
         generateProjectIndexer(benchmark_data_path, project)
 
     # Create indexer that points to the projects indexers
@@ -126,7 +153,9 @@ def generateMultiProjectIndexer(benchmark_data_path):
 
     operations_dict = {"PROJECTS" : operations_dict}
     
-    generateIndexerJSON(operations_dict, "operations_indexer.json")
+    operations_indexer_json_name = "operations_indexer.json"
+    print("\n\t Creating", operations_indexer_json_name, "\n")
+    generateIndexerJSON(operations_dict, operations_indexer_json_name)
 
 ##############################################################################
 
@@ -146,12 +175,17 @@ def runIndexer(kwargs=None):
     # Input Params
     multi_project = args.multi_project
     
-    benchmark_data_path = os.path.abspath(os.getcwd())
+    benchmark_data_path = os.path.dirname(os.path.realpath(__file__))
+    
+    print("\nStarting indexer generation:")
+    print("\tBenchmark Data Path to process:", benchmark_data_path)
     
     if multi_project:
         generateMultiProjectIndexer(benchmark_data_path)
     else:
         generateOperationsIndexer(benchmark_data_path)
+        
+    print("Done!")
 
 ##############################################################################
 
