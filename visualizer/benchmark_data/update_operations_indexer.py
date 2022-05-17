@@ -24,7 +24,7 @@ def generateIndexerJSON(json_dict, json_file):
 
 def generateOperationsIndexer(benchmark_data_path):
     print("\n\tGenerating operations indexing:")
-    operations = [file for file in sorted(os.listdir(benchmark_data_path)) if os.path.isdir(os.path.join(benchmark_data_path, file))]
+    operations = [file for file in sorted(os.listdir(benchmark_data_path), key=str.casefold) if os.path.isdir(os.path.join(benchmark_data_path, file))]
     
     operations_dict = {}
     
@@ -42,19 +42,7 @@ def generateOperationsIndexer(benchmark_data_path):
             print("\t\t\t", benchmark_file_without_extension)
             
             benchmark_results_for_operation.append(benchmark_file_without_extension)
-            
-        """
-        operation_dir = os.path.join(benchmark_data_path, operation)
-        
-        for benchmark_file in sorted(os.listdir(os.path.join(benchmark_data_path, operation))):
-            if os.path.isfile(os.path.join(operation_dir, benchmark_file)):
-                benchmark_file_without_extension = os.path.splitext(benchmark_file)[0]
-                
-                print("\t\t\t", benchmark_file_without_extension)
-                
-                benchmark_results_for_operation.append(benchmark_file_without_extension)
-        """
-        
+
         operations_dict[operation] = operations_dict[operation] = benchmark_results_for_operation if len(benchmark_results_for_operation) > 0 else ""
 
     json_dict = {"OPERATIONS" : operations_dict}
@@ -114,7 +102,7 @@ def generateProjectIndexer(benchmark_data_path, project):
     # Collect all benchmark file paths (without extension) in a list
     benchmark_paths = []
     
-    benchmark_data_path_files = sorted(filter(os.path.isfile, glob.glob(project_relative_path + '/**/*', recursive=True)))
+    benchmark_data_path_files = sorted(filter(os.path.isfile, glob.glob(project_relative_path + '/**/*', recursive=True)), key=str.casefold)
 
     for file_path in benchmark_data_path_files:
         benchmark_path = os.path.splitext(file_path)[0]
