@@ -94,6 +94,9 @@ class BenchmarkResultsContainer:
         benchmark_results_dict["name"] = benchmark_results_id
         benchmark_results_dict.update(self.__dict__)
 
+        if not os.path.exists(json_output_path):
+            os.makedirs(json_output_path)
+            
         operation_dir_path = os.path.join(json_output_path, operation)
         
         if not os.path.exists(operation_dir_path):
