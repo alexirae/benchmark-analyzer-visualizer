@@ -44,9 +44,9 @@ def createBenchmarkResults(benchmark_samples, operation):
         benchmark_stats.iqr                  = Statistics.getIQR(benchmark_samples_to_process)
         benchmark_stats.std_dev              = Statistics.getStdDev(benchmark_samples_to_process)
         benchmark_stats.std_err              = Statistics.getStdErr(benchmark_samples_to_process)
-        benchmark_stats.std_err_percentage   = benchmark_stats.std_err / benchmark_stats.mean * 100.0
+        benchmark_stats.std_err_percentage   = benchmark_stats.std_err / benchmark_stats.mean * 100.0 if benchmark_stats.std_err > 0.0 else 0.0
         benchmark_stats.margin               = Statistics.getMargin(benchmark_samples_to_process)
-        benchmark_stats.margin_percentage    = benchmark_stats.margin / benchmark_stats.mean * 100.0
+        benchmark_stats.margin_percentage    = benchmark_stats.margin / benchmark_stats.mean * 100.0 if benchmark_stats.margin > 0.0 else 0.0
         benchmark_stats.confidence_interval  = Statistics.getConfidenceInterval(benchmark_samples_to_process)
         benchmark_stats.skewness             = Statistics.getSkewness(benchmark_samples_to_process)
         benchmark_stats.kurtosis             = Statistics.getKurtosis(benchmark_samples_to_process)  
