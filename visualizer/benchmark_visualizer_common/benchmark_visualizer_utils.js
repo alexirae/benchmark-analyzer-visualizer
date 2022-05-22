@@ -60,7 +60,15 @@ function getKDE(samples, x_range, std_dev)
 
 function getRandomHexColor()
 {
-    return "#" + Math.floor(Math.random() * 16777215).toString(16);
+    // From https://helderesteves.com/generating-random-colors-js/
+    let randColor = "#";
+
+    for (let i = 0; i < 3; ++i)
+    {
+        randColor += ("0" + Math.floor(Math.random() * Math.pow(16, 2) * 0.7).toString(16)).slice(-2);
+    }
+
+    return randColor;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
