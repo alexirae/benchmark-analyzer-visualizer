@@ -54,10 +54,6 @@ $("#hideOutliers").change(function()
     getBenchmarkData();
 });
 
-$("#randomizeColor").click(function()
-{
-    randomizeTracesColors();
-});
 
 //--------------------------------------------------------------------------------------------------
 // Main

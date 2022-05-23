@@ -155,45 +155,6 @@ function displayDensityPlot(densityItems)
 
 
 //--------------------------------------------------------------------------------------------------
-// Plot Helper Functions
-//--------------------------------------------------------------------------------------------------
-function randomizeTracesColors()
-{
-    if (benchmark_results_plot_box.data            == undefined || 
-        benchmark_results_plot_density.data        == undefined || 
-        // benchmark_results_plot_density has twice the number of traces than benchmark_results_plot_box (scatter + box)
-        benchmark_results_plot_density.data.length != 2 * benchmark_results_plot_box.data.length)
-    {
-        return;
-    }
-        
-    const randomTraceColors = [];
-
-    for (let i = 0; i < benchmark_results_plot_box.data.length; ++i)
-    {
-        randomTraceColors.push(getRandomHexColor());
-    }
-
-    const randomTraceColorsInteleaved = $.map(randomTraceColors, function(v, i) {
-        return [v, randomTraceColors[i]];
-    });
-
-    const updateBoxColors =
-    {
-        'marker.color': randomTraceColors
-    }
-
-    const updateDensityColors =
-    {
-        'marker.color': randomTraceColorsInteleaved
-    }
-
-    Plotly.restyle(benchmark_results_plot_box,     updateBoxColors);
-    Plotly.restyle(benchmark_results_plot_density, updateDensityColors);
-}
-
-
-//--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
 function getJSONData(jsonFilePath)
@@ -292,7 +253,8 @@ function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedIt
 
         for (let i = 0; i < benchmarkIdsToPlot.length; ++i)
         {
-            plotItemsColor.push(getRandomHexColor());
+            const randColor = getRandomHexColor();
+            plotItemsColor.push(randColor);
         }
 
         retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
