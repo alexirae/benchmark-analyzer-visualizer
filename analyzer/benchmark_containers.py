@@ -115,3 +115,5 @@ class BenchmarkResultsContainer:
                       default=lambda o: o.__dict__, 
                       indent=4, 
                       sort_keys=False)
+            
+            file.write('\n')
