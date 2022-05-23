@@ -31,6 +31,8 @@ def generateIndexerJSON(json_dict, json_file):
                   indent=4, 
                   sort_keys=False)
         
+        file.write('\n')
+        
 ##############################################################################    
 
 def generateOperationsIndexer(benchmark_data_path):
