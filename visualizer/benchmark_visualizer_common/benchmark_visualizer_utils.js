@@ -24,9 +24,48 @@ function arange(start, stop, step)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-function gaussKDE(xi, x, h)
+function downSample1D(originalSamples, originalLength, targetLength)
 {
-	const x_minus_xi_over_h = (x - xi) / h;
+    if (targetLength === originalLength)
+    {
+        return originalSamples;
+    }
+  
+    const originalSamplesLength = originalSamples.length;
+    const downsamplingRatio     = originalLength / targetLength;
+
+    const downSampledArray = new Array(targetLength);
+  
+    let offsetResult = 0;
+    let offsetBuffer = 0;
+  
+    while (offsetResult < targetLength)
+    {
+        const nextOffsetBuffer = Math.round((offsetResult + 1) * downsamplingRatio);
+
+        let accum = 0;
+        let count = 0;
+
+        for (let i = offsetBuffer; i < nextOffsetBuffer && i < originalSamplesLength; ++i)
+        {
+            accum += originalSamples[i];
+            ++count;
+        }
+
+        downSampledArray[offsetResult] = accum / count;
+
+        ++offsetResult;
+        offsetBuffer = nextOffsetBuffer;
+    }
+  
+    return downSampledArray;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+function gaussKDE(xi, x, one_over_h)
+{
+	const x_minus_xi_over_h = (x - xi) * one_over_h;
     return one_over_sqrt_twoPI * Math.exp(x_minus_xi_over_h * x_minus_xi_over_h * -0.5);
 }
 
@@ -36,10 +75,11 @@ function getKDE(samples, x_range, std_dev)
 {
     let kde = [];
 	
-    const numSamples = samples.length;
-    const bwScott    = 1.06 * std_dev * Math.pow(numSamples, -1/5);
+    const numSamples       = samples.length;
+    const bwScott          = 1.06 * std_dev * Math.pow(numSamples, -1/5);
+    const one_over_bwScott = 1.0 / bwScott;
 	
-	const numSamples_x_bwScott = numSamples * bwScott;
+	const one_over_numSamples_x_bwScott = 1.0 / (numSamples * bwScott);
 
     for (i = 0; i < x_range.length; ++i)
     {
@@ -47,10 +87,10 @@ function getKDE(samples, x_range, std_dev)
         
         for (j = 0; j < numSamples; ++j)
         {
-            temp = temp + gaussKDE(x_range[i], samples[j], bwScott);
+            temp += gaussKDE(x_range[i], samples[j], one_over_bwScott);
         }
         
-        kde.push(1.0 / numSamples_x_bwScott * temp);
+        kde.push(one_over_numSamples_x_bwScott * temp);
     }
     
     return kde;
