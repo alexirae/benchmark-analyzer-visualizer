@@ -5,6 +5,34 @@ var g_benchmarkResultsArray = [];
 
 
 //--------------------------------------------------------------------------------------------------
+// Markers Plot Function
+//--------------------------------------------------------------------------------------------------
+function createMarkersPlot(itemColor, benchmarkInfo, showOutliers)
+{
+    const outliersState = showOutliers ? "With outliers" : "Without outliers";
+
+    const stats = benchmarkInfo["statistics"][outliersState];
+
+    const markerSymbols   = ["diamond-tall", "diamond-tall", "diamond-tall"];
+    const markerPositions = [stats["minimum"], stats["median"], stats["maximum"]];
+
+    const yRange = new Array(markerPositions.length).fill(0);
+
+    return {
+        type: "scattergl",
+        name: "",
+        x: markerPositions,
+        y: yRange,
+        marker:
+        {
+            symbol: markerSymbols,
+            color: itemColor
+        },
+    };
+}
+
+
+//--------------------------------------------------------------------------------------------------
 // Box Plot Functions
 //--------------------------------------------------------------------------------------------------
 function addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
@@ -69,19 +97,22 @@ function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkS
 {
     const outliersState = showOutliers ? "With outliers" : "Without outliers";
     
-    const distLength = benchmarkInfo["statistics"][outliersState]["maximum"] - benchmarkInfo["statistics"][outliersState]["minimum"];
-    const xMin       = benchmarkInfo["statistics"][outliersState]["minimum"] - distLength / 2.0;
-    const xMax       = benchmarkInfo["statistics"][outliersState]["maximum"] + distLength / 2.0;
+    const stats = benchmarkInfo["statistics"][outliersState];
+
+    const distLength = stats["maximum"] - stats["minimum"];
+    const xMin       = stats["minimum"] - distLength / 4.0;
+    const xMax       = stats["maximum"] + distLength / 4.0;
     
     const kdeResolution = distLength * 0.01;
     
     const xRange = arange(xMin, xMax, kdeResolution);
-    const yRange = new Array(benchmarkSamples.length).fill(0);
-    
-    const kde = getKDE(benchmarkSamples, xRange, benchmarkInfo["statistics"][outliersState]["std_dev"]);
 
+    // Adaptative downsampling
+    const samplesToProcessWithKDE = (benchmarkSamples.length < 500) ? benchmarkSamples : downSample1D(benchmarkSamples, benchmarkSamples.length, Math.round(20.0 * Math.pow(benchmarkSamples.length, 0.4)));
+
+    const kde = getKDE(samplesToProcessWithKDE, xRange, stats["std_dev"]);
     densityItems.push({
-        type: "scatter",
+        type: "scattergl",
         name: benchmarkInfo["name"],
         mode: "lines",
         fill: "tozeroy",
@@ -93,23 +124,8 @@ function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkS
         },
     });
     
-    densityItems.push({
-        type: "box",
-        name: "",
-        x: benchmarkSamples,
-        y: yRange,
-        boxpoints: 'all',
-        jitter: 0,
-        fillcolor: "rgba(255,255,255,0)",
-        line_color: "rgba(255,255,255,0)",
-        hoveron: 'points',
-        marker:
-        {
-            symbol: "line-ns-open",
-            color: itemColor
-        },
-        //secondary_y: false
-    });
+    const markersPlot = createMarkersPlot(itemColor, benchmarkInfo, showOutliers);
+    densityItems.push(markersPlot);
 }
 
 function displayDensityPlot(densityItems)
