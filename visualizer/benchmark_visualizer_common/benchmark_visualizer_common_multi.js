@@ -171,6 +171,69 @@ function displayDensityPlot(densityItems)
 
 
 //--------------------------------------------------------------------------------------------------
+// Histogram Plot Functions
+//--------------------------------------------------------------------------------------------------
+function addHistogramPlotTraces(histogramPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
+{
+    histogramPlotItems.push({
+        type: "histogram",
+        name: benchmarkInfo["name"],
+        //histnorm: "probability density", // enable this if you want to have a curve similar to a KDE
+        opacity: 0.6,
+        x: benchmarkSamples,
+        marker:
+        {
+            color: itemColor
+        }
+    });
+
+    const markersPlot = createMarkersPlot(itemColor, benchmarkInfo, showOutliers);
+    histogramPlotItems.push(markersPlot);
+}
+
+function displayHistogramPlot(histogramPlotItems)
+{
+    Plotly.newPlot
+    (
+        // Div
+        'benchmark_results_plot_histogram', 
+        
+        // Data (plotly traces)
+        histogramPlotItems,
+        
+        // Layout
+        {
+            title:
+            {
+                text: "Histogram",
+                x: 0.043
+            },
+            showlegend: false,
+            plot_bgcolor: "rgb(235, 239, 245)",
+            barmode: "overlay",
+            bargap: 0,
+            xaxis:
+            {
+                title: "Time (ms)",
+                zeroline: false,
+                autorange: true,
+            },
+            yaxis:
+            {
+                zeroline: false,
+                gridcolor: "rgb(255, 255, 255)"
+            }
+        },
+        
+        // Plot options
+        {
+            
+        }
+    );
+}
+
+
+//--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
 function getJSONData(jsonFilePath)
