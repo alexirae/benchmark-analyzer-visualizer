@@ -5,34 +5,6 @@ var g_benchmarkResultsArray = [];
 
 
 //--------------------------------------------------------------------------------------------------
-// Markers Plot Function
-//--------------------------------------------------------------------------------------------------
-function createMarkersPlot(itemColor, benchmarkInfo, showOutliers)
-{
-    const outliersState = showOutliers ? "With outliers" : "Without outliers";
-
-    const stats = benchmarkInfo["statistics"][outliersState];
-
-    const markerSymbols   = ["diamond-tall", "diamond-tall", "diamond-tall"];
-    const markerPositions = [stats["minimum"], stats["median"], stats["maximum"]];
-
-    const yRange = new Array(markerPositions.length).fill(0);
-
-    return {
-        type: "scattergl",
-        name: "",
-        x: markerPositions,
-        y: yRange,
-        marker:
-        {
-            symbol: markerSymbols,
-            color: itemColor
-        },
-    };
-}
-
-
-//--------------------------------------------------------------------------------------------------
 // Box Plot Functions
 //--------------------------------------------------------------------------------------------------
 function addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
@@ -73,8 +45,6 @@ function displayBoxPlot(boxPlotItems)
             plot_bgcolor: "rgb(235, 239, 245)",
             boxmode: "overlay",
             showlegend: false,
-            dragmode : "pan",
-            //height: 600,
             yaxis:
             {
                 gridcolor: "rgb(255, 255, 255)",
@@ -111,6 +81,7 @@ function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkS
     const samplesToProcessWithKDE = (benchmarkSamples.length < 500) ? benchmarkSamples : downSample1D(benchmarkSamples, benchmarkSamples.length, Math.round(20.0 * Math.pow(benchmarkSamples.length, 0.4)));
 
     const kde = getKDE(samplesToProcessWithKDE, xRange, stats["std_dev"]);
+
     densityItems.push({
         type: "scattergl",
         name: benchmarkInfo["name"],

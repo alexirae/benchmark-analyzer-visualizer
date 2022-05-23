@@ -6,7 +6,7 @@ const one_over_sqrt_twoPI = 1.0 / Math.sqrt(twoPI);
 
 
 //------------------------------------------------------------------------------------------------
-// Utils Functions
+// Math Functions
 //------------------------------------------------------------------------------------------------
 function arange(start, stop, step)
 {
@@ -21,8 +21,6 @@ function arange(start, stop, step)
     
     return arr;
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 function downSample1D(originalSamples, originalLength, targetLength)
 {
@@ -61,15 +59,11 @@ function downSample1D(originalSamples, originalLength, targetLength)
     return downSampledArray;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
 function gaussKDE(xi, x, one_over_h)
 {
 	const x_minus_xi_over_h = (x - xi) * one_over_h;
     return one_over_sqrt_twoPI * Math.exp(x_minus_xi_over_h * x_minus_xi_over_h * -0.5);
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 function getKDE(samples, x_range, std_dev)
 {
@@ -96,7 +90,33 @@ function getKDE(samples, x_range, std_dev)
     return kde;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
+
+//------------------------------------------------------------------------------------------------
+// Plot Functions
+//------------------------------------------------------------------------------------------------
+function createMarkersPlot(itemColor, benchmarkInfo, showOutliers)
+{
+    const outliersState = showOutliers ? "With outliers" : "Without outliers";
+
+    const stats = benchmarkInfo["statistics"][outliersState];
+
+    const markerSymbols   = ["diamond-tall", "diamond-tall", "diamond-tall"];
+    const markerPositions = [stats["minimum"], stats["median"], stats["maximum"]];
+
+    const yRange = new Array(markerPositions.length).fill(0);
+
+    return {
+        type: "scattergl",
+        name: "",
+        x: markerPositions,
+        y: yRange,
+        marker:
+        {
+            symbol: markerSymbols,
+            color: itemColor
+        },
+    };
+}
 
 function getRandomHexColor()
 {
@@ -111,8 +131,10 @@ function getRandomHexColor()
     return randColor;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
+//------------------------------------------------------------------------------------------------
+// Text Functions
+//------------------------------------------------------------------------------------------------
 function getFormattedStatisticName(statisticsVarName)
 {
     switch(statisticsVarName)
@@ -157,8 +179,6 @@ function getFormattedStatisticName(statisticsVarName)
             return "";
     } 
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
 
 function addTable(divId, benchmarkInfos, showOutliers)
 {
@@ -229,5 +249,3 @@ function addTable(divId, benchmarkInfos, showOutliers)
 
     $(divId).append(html);
 }
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
