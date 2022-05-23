@@ -2,9 +2,20 @@ import argparse
 import glob
 import json
 import os
+import re
 
 from collections import defaultdict
 
+
+##############################################################################
+
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+##############################################################################
+
+def naturalKeys(text):
+    return [atoi(c) for c in re.split(r'(\d+)', text.casefold())]
 
 ##############################################################################    
 
@@ -24,7 +35,7 @@ def generateIndexerJSON(json_dict, json_file):
 
 def generateOperationsIndexer(benchmark_data_path):
     print("\n\tGenerating operations indexing:")
-    operations = [file for file in sorted(os.listdir(benchmark_data_path), key=str.casefold) if os.path.isdir(os.path.join(benchmark_data_path, file))]
+    operations = [file for file in sorted(os.listdir(benchmark_data_path), key=naturalKeys) if os.path.isdir(os.path.join(benchmark_data_path, file))]
     
     operations_dict = {}
     
@@ -102,7 +113,7 @@ def generateProjectIndexer(benchmark_data_path, project):
     # Collect all benchmark file paths (without extension) in a list
     benchmark_paths = []
     
-    benchmark_data_path_files = sorted(filter(os.path.isfile, glob.glob(project_relative_path + '/**/*', recursive=True)), key=str.casefold)
+    benchmark_data_path_files = sorted(filter(os.path.isfile, glob.glob(project_relative_path + '/**/*', recursive=True)), key=naturalKeys)
 
     for file_path in benchmark_data_path_files:
         benchmark_path = os.path.splitext(file_path)[0]
