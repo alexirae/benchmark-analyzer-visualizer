@@ -59,7 +59,7 @@ function displayBoxPlot(boxPlotItems)
         
         // Plot options
         {
-            //scrollZoom: true
+            responsive: true
         }
     );
 }
@@ -145,7 +145,7 @@ function displayDensityPlot(densityItems)
         
         // Plot options
         {
-            
+            responsive: true
         }
     );
 }
@@ -213,7 +213,7 @@ function displayHistogramPlot(histogramPlotItems)
         
         // Plot options
         {
-            
+            responsive: true
         }
     );
 }

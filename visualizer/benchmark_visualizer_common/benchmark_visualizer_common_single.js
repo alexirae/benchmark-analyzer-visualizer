@@ -72,7 +72,7 @@ function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
         
         // Plot options
         {
-            
+            responsive: true
         }
     )
 }
@@ -155,7 +155,7 @@ function generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples)
         
         // Plot options
         {
-            
+            responsive: true
         }
     );
 }
@@ -228,7 +228,7 @@ function generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples)
         
         // Plot options
         {
-            
+            responsive: true
         }
     );
 }
