@@ -30,10 +30,15 @@ function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
     });
 
     // Create Box Plot
+    const divName                    = "benchmark_results_plot_box";
+    const benchmarkResultsPlotBoxDiv = createElementWithId("div", divName);
+
+    document.getElementById("benchmark_results_plots").appendChild(benchmarkResultsPlotBoxDiv);
+
     Plotly.newPlot
     (
         // Div
-        'benchmark_results_plot_box', 
+        divName, 
         
         // Data (plotly traces)
         traces,
@@ -113,10 +118,15 @@ function generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples)
     densityItems.push(markersPlot);
 
     // Create Plot
+    const divName                        = "benchmark_results_plot_density";
+    const benchmarkResultsPlotDensityDiv = createElementWithId("div", divName);
+
+	document.getElementById("benchmark_results_plots").appendChild(benchmarkResultsPlotDensityDiv);
+
     Plotly.newPlot
     (
         // Div
-        'benchmark_results_plot_density', 
+        divName, 
         
         // Data
         densityItems,
@@ -178,10 +188,15 @@ function generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples)
     histogramPlotItems.push(markersPlot);
 
     // Create Plot
+    const divName                          = "benchmark_results_plot_histogram";
+    const benchmarkResultsPlotHistogramDiv = createElementWithId("div", divName);
+
+	document.getElementById("benchmark_results_plots").appendChild(benchmarkResultsPlotHistogramDiv);
+
     Plotly.newPlot
     (
         // Div
-        'benchmark_results_plot_histogram', 
+        divName, 
         
         // Data (plotly traces)
         histogramPlotItems,

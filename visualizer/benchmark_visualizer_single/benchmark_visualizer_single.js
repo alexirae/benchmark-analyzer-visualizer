@@ -3,9 +3,7 @@
 //--------------------------------------------------------------------------------------------------
 function clearDisplayedBenchmarkInfo()
 {
-    $("#benchmark_results_plot_density").empty();
-    $("#benchmark_results_plot_box").empty();
-    $("#benchmark_results_plot_histogram").empty();
+    $("#benchmark_results_plots").empty();
     $("#benchmark_statistics").empty();
 }
 

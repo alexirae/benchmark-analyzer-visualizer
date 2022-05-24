@@ -1,14 +1,18 @@
 //--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
+function createElementWithId(element, id)
+{
+	let newElement = document.createElement(element);
+
+	newElement.id = id.toLowerCase();
+	
+	return newElement;
+}
+
 function createEmptyComboBox(id)
 {
-	// Create <select> HTML tag
-	let comboBox = document.createElement("select");
-
-	comboBox.id = id.toLowerCase();
-	
-	return comboBox;
+    return createElementWithId("select", id);
 }
 
 function addComboBoxOption(comboBox, value, innerHTML, selected, disabled)
