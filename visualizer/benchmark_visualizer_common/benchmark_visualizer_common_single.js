@@ -248,9 +248,11 @@ function generateAndDisplayPlots(benchmarkInfo, showOutliers)
     }
 
     // Plots
+    generateDummyPlot("dummy_plot_to_init_plotly");
     generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples);
     generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples);
     generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples);
+    removeDummyPlot("dummy_plot_to_init_plotly");
 }
 
 

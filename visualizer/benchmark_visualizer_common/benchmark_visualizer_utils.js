@@ -94,6 +94,21 @@ function getKDE(samples, x_range, std_dev)
 //------------------------------------------------------------------------------------------------
 // Plot Functions
 //------------------------------------------------------------------------------------------------
+function generateDummyPlot(divName)
+{
+    const dummyPlotDiv = createElementWithId("div", divName);
+    document.getElementById("benchmark_results_plots").appendChild(dummyPlotDiv);
+
+    Plotly.newPlot(divName, []);
+}
+
+function removeDummyPlot(divName)
+{
+    const dummyPlotDiv = document.getElementById(divName);
+    document.getElementById("benchmark_results_plots").removeChild(dummyPlotDiv);
+}
+
+
 function createMarkersPlot(itemColor, benchmarkInfo, showOutliers)
 {
     const outliersState = showOutliers ? "With outliers" : "Without outliers";
