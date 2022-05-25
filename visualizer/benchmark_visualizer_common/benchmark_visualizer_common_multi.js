@@ -295,10 +295,10 @@ function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds, plotItemsCo
         }
         
         // Show Plots
-        generateDummyPlot("dummy_plot_to_init_plotly");
+        generateDummyPlot("dummy_plot_to_init_plotly"); // See commit 5152556 for more details
         displayBoxPlot(boxPlotItems);
         displayDensityPlot(densityItems);
-        removeDummyPlot("dummy_plot_to_init_plotly");
+        removeDummyPlot("dummy_plot_to_init_plotly");   // See commit 5152556 for more details
         
     }).catch(function(reason)
     {
