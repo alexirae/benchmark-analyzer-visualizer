@@ -12,9 +12,9 @@ function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
     const xMax       = stats["maximum"] + distLength / 4.0;
 
     // Box Plot traces
-    let traces = [];
+    let boxItems = [];
     
-    traces.push({
+    boxItems.push({
         type: "box",
         name: benchmarkInfo["name"],
         quartilemethod: "inclusive",
@@ -41,7 +41,7 @@ function generateBoxPlot(benchmarkInfo, outliersState, benchmarkSamples)
         divName, 
         
         // Data (plotly traces)
-        traces,
+        boxItems,
         
         // Layout
         {
@@ -163,6 +163,8 @@ function generateDensityPlot(benchmarkInfo, outliersState, benchmarkSamples)
 function generateHistogramPlot(benchmarkInfo, outliersState, benchmarkSamples)
 {
     const stats = benchmarkInfo["statistics"][outliersState];
+
+    const showOutliers = outliersState == "With outliers";
 
     const distLength = stats["maximum"] - stats["minimum"];
     const xMin       = stats["minimum"] - distLength / 4.0;
