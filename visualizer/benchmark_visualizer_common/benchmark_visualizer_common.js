@@ -178,8 +178,8 @@ function populateBenchmarkListComboBox(comboboxName, benchmarkResultsList)
 
 function resetOptionsPanel()
 {
-    $("#optionsPanel").hide();
-    $("#showOutliers").prop("checked", true);
+    $("#options_panel").hide();
+    $("#show_outliers").prop("checked", true);
 }
 
 //--------------------------------------------------------------------------------------------------

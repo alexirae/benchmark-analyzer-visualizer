@@ -53,12 +53,12 @@ $("#benchmarks").change(function()
     getBenchmarkData();
 });
 
-$("#showOutliers").change(function()
+$("#show_outliers").change(function()
 {
     getBenchmarkData();
 });
 
-$("#hideOutliers").change(function()
+$("#hide_outliers").change(function()
 {
     getBenchmarkData();
 });

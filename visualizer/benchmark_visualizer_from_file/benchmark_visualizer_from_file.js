@@ -14,7 +14,7 @@ function getBenchmarkData(contents)
 //--------------------------------------------------------------------------------------------------
 // Events
 //--------------------------------------------------------------------------------------------------
-$("#fileInput").change(function readFile(e)
+$("#file_input").change(function readFile(e)
 {
     const file = e.target.files[0];
     
@@ -37,13 +37,13 @@ $("#fileInput").change(function readFile(e)
     reader.readAsText(file);
 });
 
-$("#showOutliers").change(function()
+$("#show_outliers").change(function()
 {
     const contents = sessionStorage.getItem("fileContentPersistence");
     getBenchmarkData(contents);
 });
 
-$("#hideOutliers").change(function()
+$("#hide_outliers").change(function()
 {
     const contents = sessionStorage.getItem("fileContentPersistence");
     getBenchmarkData(contents);

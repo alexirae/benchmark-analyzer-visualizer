@@ -48,12 +48,12 @@ $("#benchmark_end").change(function()
     updateBenchmarkListComboBox("#benchmark_start", firstBenchmarkComboBoxRange, secondBenchmarkComboBoxRange);
 });
 
-$("#showOutliers").change(function()
+$("#show_outliers").change(function()
 {
     getBenchmarkData();
 });
 
-$("#hideOutliers").change(function()
+$("#hide_outliers").change(function()
 {
     getBenchmarkData();
 });

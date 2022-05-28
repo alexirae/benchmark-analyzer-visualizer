@@ -262,9 +262,9 @@ function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds, plotItemsCo
     // Wait for all calls to be done so we can display plots
     Promise.all(calls).then(function(benchmarkInfos)
     {
-        $("#optionsPanel").show();
+        $("#options_panel").show();
 
-        const showOutliers = $("#showOutliers").prop("checked");
+        const showOutliers = $("#show_outliers").prop("checked");
         
         const isCompareMode = $("#comparison_results").length > 0;
 
