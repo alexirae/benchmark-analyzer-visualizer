@@ -49,8 +49,8 @@ function createComboBox(currentFilter, key, onChangeFunction)
 		onChangeFunction();
 	};
 
-	// Add to DOM
-	document.getElementById("benchmark_filters").appendChild(comboBox);
+	// Add combobox
+	$("#operation_filter").append(comboBox);
 }
 
 function getBenchmarkJSONPathFromFilter()
@@ -62,7 +62,7 @@ function getBenchmarkJSONPathFromFilter()
     
 	if (isMultiProject)
 	{
-        $("#benchmark_filters").children("select").each(function()
+        $("#operation_filter").children("select").each(function()
         {
             if ($(this).children("option:eq(0)").text() != "PROJECTS")
             {
@@ -107,7 +107,7 @@ function createFilter(jsonObjects)
         {
             let deleteComboboxes = false;
 
-            $("#benchmark_filters").children("select").each(function()
+            $("#operation_filter").children("select").each(function()
             {
                 if (comboboxId == this.id)
                 {
