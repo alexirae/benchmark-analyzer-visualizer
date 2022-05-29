@@ -194,7 +194,7 @@ function resetOptionsPanel()
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)
 //--------------------------------------------------------------------------------------------------
-function createBenchmarkOperationFilter(operationFilterDivId, createOperationsFilterFunction, filterIndex)
+function createBenchmarkOperationFilter(operationFilterDivId, filterIndex, createOperationsFilterFunction)
 {
 	$.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
@@ -203,7 +203,7 @@ function createBenchmarkOperationFilter(operationFilterDivId, createOperationsFi
 			const currentFilterElement = jsonObjects[key];
             const comboboxId           = key.toLowerCase() + "_" + filterIndex.toString();
 
-			createComboBox(currentFilterElement, comboboxId, operationFilterDivId, function () { createOperationsFilterFunction(operationFilterDivId, filterIndex); });
+			createComboBox(currentFilterElement, comboboxId, operationFilterDivId, createOperationsFilterFunction);
         });
     });
 }
