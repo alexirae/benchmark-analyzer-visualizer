@@ -128,7 +128,7 @@ function createFilterElement(jsonObjects, operationFilterDivId, filterIndex)
             });
 
             clearDisplayedBenchmarkInfo();
-            clearBenchmarkResults();
+            clearBenchmarkResults(filterIndex);
 			resetOptionsPanel();
         }
 

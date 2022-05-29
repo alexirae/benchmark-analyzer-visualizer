@@ -331,7 +331,7 @@ function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedIt
     retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
 }
 
-function clearBenchmarkResults()
+function clearBenchmarkResults(filterIndex)
 {
     $("#benchmark_start").empty();
     $("#benchmark_end").empty();

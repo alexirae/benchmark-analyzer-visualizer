@@ -7,7 +7,7 @@ function clearDisplayedBenchmarkInfo()
     $("#benchmark_statistics").empty();
 }
 
-function clearBenchmarkResults()
+function clearBenchmarkResults(filterIndex)
 {
     $("#benchmarks").empty();
 }
