@@ -363,7 +363,7 @@ function updateBenchmarkListComboBox(benchmarkListComboBoxId, operationFilterDiv
     benchmarkListComboBox.empty();
     benchmarkListComboBox.append("<option selected='true' disabled>Choose Benchmark Result</option>");
     
-    const benchmarkJSONPath = getBenchmarkJSONPathFromFilter(operationFilterDivId);
+    const benchmarkJSONPath = getBenchmarkJSONPathFromFilter(operationFilterDivId, 0);
 
     // Update benchmark list combobox accordingly and only display benchmark items based on combobox selection
     if (benchmarkListComboBoxId == "benchmark_start")
@@ -392,7 +392,7 @@ function updateBenchmarkListComboBox(benchmarkListComboBoxId, operationFilterDiv
 
 function getBenchmarkData()
 {
-	const operationsSelectedIndex = $("#operations").prop("selectedIndex");
+	const operationsSelectedIndex = $("#operations_0").prop("selectedIndex");
 	
     const benchmarkStartSelectedIndex = $("#benchmark_start").prop("selectedIndex");
     const benchmarkEndSelectedIndex   = $("#benchmark_end").prop("selectedIndex");
@@ -407,7 +407,7 @@ function getBenchmarkData()
         return;
     }
 
-    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter("operation_filter");
+    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter("operation_filter", 0);
     const benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
     // Keep items color when switching between outliers modes

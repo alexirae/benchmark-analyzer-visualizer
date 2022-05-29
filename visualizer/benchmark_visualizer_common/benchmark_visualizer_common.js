@@ -30,10 +30,11 @@ function addComboBoxOption(comboBox, value, innerHTML, selected, disabled)
 function createComboBox(currentFilterElement, key, parentDiv, onChangeFunction)
 {
 	// Create ComboBox
-	comboBox = createEmptyComboBox(key);
+	let comboBox = createEmptyComboBox(key);
 
 	// Add ComboBox options
-	addComboBoxOption(comboBox, 0, key, true, true);
+    const title = key.substr(0, key.lastIndexOf('_')).toUpperCase();
+	addComboBoxOption(comboBox, 0, title, true, true);
 
 	let i = 1;
 
@@ -53,12 +54,13 @@ function createComboBox(currentFilterElement, key, parentDiv, onChangeFunction)
 	$("#" + parentDiv).append(comboBox);
 }
 
-function getBenchmarkJSONPathFromFilter(operationFilterDivId)
+function getBenchmarkJSONPathFromFilter(operationFilterDivId, filterIndex)
 {
     // Build path where the Benchmark JSON file is located
     let benchmarkJSONPath = "../benchmark_data/";
 
-	const isMultiProject = $("#projects").length > 0;
+    const projectsId = "#projects_" + filterIndex.toString();
+	const isMultiProject = $(projectsId).length > 0;
     
 	if (isMultiProject)
 	{
@@ -74,20 +76,25 @@ function getBenchmarkJSONPathFromFilter(operationFilterDivId)
     }
     else
     {
-        benchmarkJSONPath += $("#operations option:selected").text() + "/";
+        const operationId   = "#operations_" + filterIndex.toString();
+        const operationName = $(operationId + " option:selected").text();
+
+        benchmarkJSONPath += operationName + "/";
     }
 
 	return benchmarkJSONPath;
 }
 
-function filterMarching(comboboxId, currentFilterElement, operationFilterDivId)
+function filterMarching(comboboxId, currentFilterElement, operationFilterDivId, filterIndex)
 {
 	const selectedOption = $("#" + comboboxId + " option:selected").text();
 	const jsonObjects  = currentFilterElement[selectedOption];
 
-	if (comboboxId != "operations")
+    const isNotOperationsFilterElement = comboboxId.substr(0, comboboxId.lastIndexOf('_')) != "operations";
+
+	if (isNotOperationsFilterElement)
 	{
-		createFilterElement(jsonObjects, operationFilterDivId);
+		createFilterElement(jsonObjects, operationFilterDivId, filterIndex);
 	}
 	else
 	{
@@ -95,12 +102,12 @@ function filterMarching(comboboxId, currentFilterElement, operationFilterDivId)
 	}
 };
 
-function createFilterElement(jsonObjects, operationFilterDivId)
+function createFilterElement(jsonObjects, operationFilterDivId, filterIndex)
 {
     $.each(jsonObjects, function(key)
     {
         const currentFilterElement = jsonObjects[key];
-        const comboboxId           = key.toLowerCase();
+        const comboboxId           = key.toLowerCase() + "_" + filterIndex.toString();
 
         // combobox already exists, cleanup
         if($("#" + comboboxId).length > 0)
@@ -125,30 +132,32 @@ function createFilterElement(jsonObjects, operationFilterDivId)
 			resetOptionsPanel();
         }
 
-		createComboBox(currentFilterElement, key, operationFilterDivId, function() { filterMarching(comboboxId, currentFilterElement, operationFilterDivId); });
+		createComboBox(currentFilterElement, comboboxId, operationFilterDivId, function() { filterMarching(comboboxId, currentFilterElement, operationFilterDivId, filterIndex); });
     });
 }
 
-function createOperationsFilter(operationFilterDivId)
+function createOperationsFilter(operationFilterDivId, filterIndex)
 {
-    const isMultiProject = $("#projects").length > 0;
+    const projectsId = "#projects_" + filterIndex.toString();
+    const isMultiProject = $(projectsId).length > 0;
 
 	if (isMultiProject)
 	{
-        const selectedProject = $("#projects option:selected").text();
+        const selectedProject = $(projectsId + " option:selected").text();
 
         $.getJSON("../benchmark_data/" + selectedProject + "_indexer.json", function(jsonObjects)
         {
-            createFilterElement(jsonObjects, operationFilterDivId);
+            createFilterElement(jsonObjects, operationFilterDivId, filterIndex);
         });
 	}
     else
     {
-        const operation = $("#operations option:selected").text();
+        const operationId   = "#operations_" + filterIndex.toString();
+        const operationName = $(operationId + " option:selected").text();
 
         $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
         {
-            const benchmarkResultsList = jsonObjects["OPERATIONS"][operation];
+            const benchmarkResultsList = jsonObjects["OPERATIONS"][operationName];
 
             populateBenchmarkListFromFilter(benchmarkResultsList);
         });
@@ -185,15 +194,16 @@ function resetOptionsPanel()
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)
 //--------------------------------------------------------------------------------------------------
-function createBenchmarkOperationFilter(operationFilterDivId, createOperationsFilterFunction)
+function createBenchmarkOperationFilter(operationFilterDivId, createOperationsFilterFunction, filterIndex)
 {
 	$.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
         $.each(jsonObjects, function(key)
         {
 			const currentFilterElement = jsonObjects[key];
+            const comboboxId           = key.toLowerCase() + "_" + filterIndex.toString();
 
-			createComboBox(currentFilterElement, key, operationFilterDivId, function () { createOperationsFilterFunction(operationFilterDivId); });
+			createComboBox(currentFilterElement, comboboxId, operationFilterDivId, function () { createOperationsFilterFunction(operationFilterDivId, filterIndex); });
         });
     });
 }
