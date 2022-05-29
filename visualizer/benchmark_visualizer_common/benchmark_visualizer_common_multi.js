@@ -266,11 +266,12 @@ function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds, plotItemsCo
 
         const showOutliers = $("#show_outliers").prop("checked");
         
-        const isCompareMode = $("#comparison_results").length > 0;
+        const comparisonResultsDivId = "comparison_results";
+        const isCompareMode          = $("#" + comparisonResultsDivId).length > 0;
 
         if (isCompareMode)
         {
-            addTable("#comparison_results", benchmarkInfos, showOutliers);
+            addTable(comparisonResultsDivId, benchmarkInfos, showOutliers);
         }
         
         let boxPlotItems = [];
@@ -308,24 +309,26 @@ function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds, plotItemsCo
 
 function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedItem, range, benchmarkJSONPath)
 {
-    // Set combobox selection and plot
-    if (prevSelectedIndex != 0)
+    if (prevSelectedIndex == 0)
     {
-        const idx = range.indexOf(prevSelectedItem) + 1;
-        combobox.prop("selectedIndex", idx);
-
-        let benchmarkIdsToPlot = getBenchmarkIdsToPlot();
-
-        let plotItemsColor = [];
-
-        for (let i = 0; i < benchmarkIdsToPlot.length; ++i)
-        {
-            const randColor = getRandomHexColor();
-            plotItemsColor.push(randColor);
-        }
-
-        retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
+        return;
     }
+    
+    // Set combobox selection and plot
+    const idx = range.indexOf(prevSelectedItem) + 1;
+    combobox.prop("selectedIndex", idx);
+
+    let benchmarkIdsToPlot = getBenchmarkIdsToPlot();
+
+    let plotItemsColor = [];
+
+    for (let i = 0; i < benchmarkIdsToPlot.length; ++i)
+    {
+        const randColor = getRandomHexColor();
+        plotItemsColor.push(randColor);
+    }
+
+    retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
 }
 
 function clearBenchmarkResults()
@@ -334,10 +337,10 @@ function clearBenchmarkResults()
     $("#benchmark_end").empty();
 }
 
-function populateBenchmarkListFromFilter(filter)
+function populateBenchmarkListFromFilter(benchmarkResultsList)
 {
-    populateBenchmarkListComboBox("#benchmark_start", filter);
-    populateBenchmarkListComboBox("#benchmark_end",   filter);
+    populateBenchmarkListComboBox("#benchmark_start", benchmarkResultsList);
+    populateBenchmarkListComboBox("#benchmark_end",   benchmarkResultsList);
 }
 
 function getBenchmarkResultsArray()
@@ -349,41 +352,41 @@ function getBenchmarkResultsArray()
 //--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
-function updateBenchmarkListComboBox(comboboxName, firstBenchmarkComboBoxRange, secondBenchmarkComboBoxRange)
+function updateBenchmarkListComboBox(benchmarkListComboBoxId, operationFilterDivId, firstBenchmarkComboBoxRange, secondBenchmarkComboBoxRange)
 {
     // Cache previous selection
-    const prevSelectedIndex = $(comboboxName + " option:selected").index();
-    const prevSelectedItem  = $(comboboxName + " option:selected").text();
+    const prevSelectedIndex = $("#" + benchmarkListComboBoxId + " option:selected").index();
+    const prevSelectedItem  = $("#" + benchmarkListComboBoxId + " option:selected").text();
     
-    // Reset Combobox
-    const combobox = $(comboboxName);
-    combobox.empty();
-    combobox.append("<option selected='true' disabled>Choose Benchmark Result</option>");
+    // Reset benchmark list combobox
+    const benchmarkListComboBox = $("#" + benchmarkListComboBoxId);
+    benchmarkListComboBox.empty();
+    benchmarkListComboBox.append("<option selected='true' disabled>Choose Benchmark Result</option>");
     
-    const benchmarkJSONPath = getBenchmarkJSONPathFromFilter();
+    const benchmarkJSONPath = getBenchmarkJSONPathFromFilter(operationFilterDivId);
 
-    // Update Combobox accordingly and only display benchmark items based on combobox selection
-    if (comboboxName == "#benchmark_start")
+    // Update benchmark list combobox accordingly and only display benchmark items based on combobox selection
+    if (benchmarkListComboBoxId == "benchmark_start")
     {
-        // Fill combobox with new range
+        // Fill benchmark list combobox with new range
         for (let i = 0; i < firstBenchmarkComboBoxRange.length; i++)
         {
             const benchmarkId = firstBenchmarkComboBoxRange[i];
-            combobox.append($("<option></option>").attr("value", i + 1).text(benchmarkId));
+            benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(benchmarkId));
         }
         
-        setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedItem, firstBenchmarkComboBoxRange, benchmarkJSONPath);
+        setComboBoxSelectionAndPlot(benchmarkListComboBox, prevSelectedIndex, prevSelectedItem, firstBenchmarkComboBoxRange, benchmarkJSONPath);
     }
-    else if (comboboxName == "#benchmark_end")
+    else if (benchmarkListComboBoxId == "benchmark_end")
     {
-        // Fill combobox with new range
+        // Fill benchmark list combobox with new range
         for (let i = 0; i < secondBenchmarkComboBoxRange.length; i++)
         {
             const benchmarkId = secondBenchmarkComboBoxRange[i];
-            combobox.append($("<option></option>").attr("value", firstBenchmarkComboBoxRange.length + i + 1).text(benchmarkId));
+            benchmarkListComboBox.append($("<option></option>").attr("value", firstBenchmarkComboBoxRange.length + i + 1).text(benchmarkId));
         }
         
-        setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedItem, secondBenchmarkComboBoxRange, benchmarkJSONPath);
+        setComboBoxSelectionAndPlot(benchmarkListComboBox, prevSelectedIndex, prevSelectedItem, secondBenchmarkComboBoxRange, benchmarkJSONPath);
     }
 }
 
@@ -404,7 +407,7 @@ function getBenchmarkData()
         return;
     }
 
-    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter();
+    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter("operation_filter");
     const benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
     // Keep items color when switching between outliers modes

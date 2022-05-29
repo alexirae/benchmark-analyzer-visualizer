@@ -12,9 +12,9 @@ function clearBenchmarkResults()
     $("#benchmarks").empty();
 }
 
-function populateBenchmarkListFromFilter(filter)
+function populateBenchmarkListFromFilter(benchmarkResultsList)
 {
-    populateBenchmarkListComboBox("#benchmarks", filter);
+    populateBenchmarkListComboBox("#benchmarks", benchmarkResultsList);
 }
 
 
@@ -34,7 +34,7 @@ function getBenchmarkData()
         return;
     }
 
-    const benchmarkJSONPath      = getBenchmarkJSONPathFromFilter();
+    const benchmarkJSONPath      = getBenchmarkJSONPathFromFilter("operation_filter");
     const benchmarkFileName      = $("#benchmarks option:selected").text() + ".json"
     const operationBenchmarkPath = benchmarkJSONPath + benchmarkFileName;
 
@@ -68,4 +68,4 @@ $("#hide_outliers").change(function()
 // Main
 //--------------------------------------------------------------------------------------------------
 resetOptionsPanel();
-createBenchmarkFilters(createOperationsFilter);
+createBenchmarkOperationFilter("operation_filter", createOperationsFilter);

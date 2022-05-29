@@ -19,15 +19,15 @@ function addComboBoxOption(comboBox, value, innerHTML, selected, disabled)
 {
 	let comboBoxOption = document.createElement("option");
 
-	comboBoxOption.value         = value;
-	comboBoxOption.innerHTML     = innerHTML;
-	comboBoxOption.selected      = selected;
-	comboBoxOption.disabled      = disabled;
+	comboBoxOption.value     = value;
+	comboBoxOption.innerHTML = innerHTML;
+	comboBoxOption.selected  = selected;
+	comboBoxOption.disabled  = disabled;
 
 	comboBox.add(comboBoxOption);
 }
 
-function createComboBox(currentFilter, key, onChangeFunction)
+function createComboBox(currentFilterElement, key, parentDiv, onChangeFunction)
 {
 	// Create ComboBox
 	comboBox = createEmptyComboBox(key);
@@ -37,7 +37,7 @@ function createComboBox(currentFilter, key, onChangeFunction)
 
 	let i = 1;
 
-	$.each(currentFilter, function(optionText)
+	$.each(currentFilterElement, function(optionText)
 	{
 		addComboBoxOption(comboBox, i, optionText, false, false);
 		i++;
@@ -50,10 +50,10 @@ function createComboBox(currentFilter, key, onChangeFunction)
 	};
 
 	// Add combobox
-	$("#operation_filter").append(comboBox);
+	$("#" + parentDiv).append(comboBox);
 }
 
-function getBenchmarkJSONPathFromFilter()
+function getBenchmarkJSONPathFromFilter(operationFilterDivId)
 {
     // Build path where the Benchmark JSON file is located
     let benchmarkJSONPath = "../benchmark_data/";
@@ -62,7 +62,7 @@ function getBenchmarkJSONPathFromFilter()
     
 	if (isMultiProject)
 	{
-        $("#operation_filter").children("select").each(function()
+        $("#" + operationFilterDivId).children("select").each(function()
         {
             if ($(this).children("option:eq(0)").text() != "PROJECTS")
             {
@@ -80,34 +80,34 @@ function getBenchmarkJSONPathFromFilter()
 	return benchmarkJSONPath;
 }
 
-function filterMarching(comboboxId, currentFilter)
+function filterMarching(comboboxId, currentFilterElement, operationFilterDivId)
 {
 	const selectedOption = $("#" + comboboxId + " option:selected").text();
-	const filter         = currentFilter[selectedOption];
+	const jsonObjects  = currentFilterElement[selectedOption];
 
 	if (comboboxId != "operations")
 	{
-		createFilter(filter);
+		createFilterElement(jsonObjects, operationFilterDivId);
 	}
 	else
 	{
-		populateBenchmarkListFromFilter(filter);
+		populateBenchmarkListFromFilter(jsonObjects);
 	}
 };
 
-function createFilter(jsonObjects)
+function createFilterElement(jsonObjects, operationFilterDivId)
 {
     $.each(jsonObjects, function(key)
     {
-        const currentFilter = jsonObjects[key];
-        const comboboxId    = key.toLowerCase();
+        const currentFilterElement = jsonObjects[key];
+        const comboboxId           = key.toLowerCase();
 
         // combobox already exists, cleanup
         if($("#" + comboboxId).length > 0)
         {
             let deleteComboboxes = false;
 
-            $("#operation_filter").children("select").each(function()
+            $("#" + operationFilterDivId).children("select").each(function()
             {
                 if (comboboxId == this.id)
                 {
@@ -125,11 +125,11 @@ function createFilter(jsonObjects)
 			resetOptionsPanel();
         }
 
-		createComboBox(currentFilter, key, function() { filterMarching(comboboxId, currentFilter); });
+		createComboBox(currentFilterElement, key, operationFilterDivId, function() { filterMarching(comboboxId, currentFilterElement, operationFilterDivId); });
     });
 }
 
-function createOperationsFilter()
+function createOperationsFilter(operationFilterDivId)
 {
     const isMultiProject = $("#projects").length > 0;
 
@@ -139,7 +139,7 @@ function createOperationsFilter()
 
         $.getJSON("../benchmark_data/" + selectedProject + "_indexer.json", function(jsonObjects)
         {
-            createFilter(jsonObjects);
+            createFilterElement(jsonObjects, operationFilterDivId);
         });
 	}
     else
@@ -148,9 +148,9 @@ function createOperationsFilter()
 
         $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
         {
-            const filter = jsonObjects["OPERATIONS"][operation];
+            const benchmarkResultsList = jsonObjects["OPERATIONS"][operation];
 
-            populateBenchmarkListFromFilter(filter);
+            populateBenchmarkListFromFilter(benchmarkResultsList);
         });
     }
 }
@@ -185,15 +185,15 @@ function resetOptionsPanel()
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)
 //--------------------------------------------------------------------------------------------------
-function createBenchmarkFilters(createOperationsFilterFunction)
+function createBenchmarkOperationFilter(operationFilterDivId, createOperationsFilterFunction)
 {
 	$.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
         $.each(jsonObjects, function(key)
         {
-			const currentFilter = jsonObjects[key];
+			const currentFilterElement = jsonObjects[key];
 
-			createComboBox(currentFilter, key, createOperationsFilterFunction);
+			createComboBox(currentFilterElement, key, operationFilterDivId, function () { createOperationsFilterFunction(operationFilterDivId); });
         });
     });
 }

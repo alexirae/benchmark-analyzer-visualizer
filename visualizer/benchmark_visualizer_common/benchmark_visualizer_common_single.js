@@ -264,6 +264,6 @@ function displayJSONData(benchmarkInfo)
     const showOutliers = $("#show_outliers").prop("checked");
     
     $("#options_panel").show();
-    addTable("#benchmark_statistics", [benchmarkInfo], showOutliers);
+    addTable("benchmark_statistics", [benchmarkInfo], showOutliers);
     generateAndDisplayPlots(benchmarkInfo, showOutliers);
 }

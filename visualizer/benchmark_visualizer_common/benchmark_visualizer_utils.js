@@ -195,9 +195,9 @@ function getFormattedStatisticName(statisticsVarName)
     } 
 }
 
-function addTable(divId, benchmarkInfos, showOutliers)
+function addTable(statisticsTableDivId, benchmarkInfos, showOutliers)
 {
-    $(divId).empty();
+    $("#" + statisticsTableDivId).empty();
 
     let html = "<table>";
     html += "<tbody>";
@@ -262,5 +262,5 @@ function addTable(divId, benchmarkInfos, showOutliers)
     html += "</tbody>";
     html += "</table>";
 
-    $(divId).append(html);
+    $("#" + statisticsTableDivId).append(html);
 }
