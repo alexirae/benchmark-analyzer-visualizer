@@ -248,15 +248,14 @@ function getJSONData(jsonFilePath)
     });
 }
 
-function retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIds, plotItemsColor)
+function retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor)
 {
     // Create calls to collect JSON benchmark data
     let calls = [];
 
-    for (let i = 0; i < benchmarkIds.length; i++)
+    for (let i = 0; i < benchmarkInfosPaths.length; ++i)
     {
-        const jsonFilePath = benchmarkJSONPath + benchmarkIds[i] + ".json";
-        calls.push(getJSONData(jsonFilePath));
+        calls.push(getJSONData(benchmarkInfosPaths[i]));
     }
 
     // Wait for all calls to be done so we can display plots
@@ -320,15 +319,19 @@ function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedIt
 
     let benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
-    let plotItemsColor = [];
+    let benchmarkInfosPaths = [];
+    let plotItemsColor      = [];
 
     for (let i = 0; i < benchmarkIdsToPlot.length; ++i)
     {
+        const jsonFilePath = benchmarkJSONPath + benchmarkIdsToPlot[i] + ".json";
+        benchmarkInfosPaths.push(jsonFilePath);
+
         const randColor = getRandomHexColor();
         plotItemsColor.push(randColor);
     }
 
-    retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
+    retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor);
 }
 
 function clearBenchmarkResults(filterIndex)
@@ -410,13 +413,18 @@ function getBenchmarkData()
     const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter("operation_filter", 0);
     const benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
+    let benchmarkInfosPaths = [];
+
     // Keep items color when switching between outliers modes
     let plotItemsColor = [];
 
-    for (let i = 0; i < benchmark_results_plot_box.data.length; ++i)
+    for (let i = 0; i < benchmarkIdsToPlot.length; ++i)
     {
+        const jsonFilePath = benchmarkJSONPath + benchmarkIdsToPlot[i] + ".json";
+        benchmarkInfosPaths.push(jsonFilePath);
+
         plotItemsColor.push(benchmark_results_plot_box.data[i].marker.color);
     }
 
-    retrieveAndDisplayJSONData(benchmarkJSONPath, benchmarkIdsToPlot, plotItemsColor);
+    retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor);
 }
