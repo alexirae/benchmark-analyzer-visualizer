@@ -7,11 +7,11 @@ var g_benchmarkResultsArray = [];
 //--------------------------------------------------------------------------------------------------
 // Box Plot Functions
 //--------------------------------------------------------------------------------------------------
-function addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
+function addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkInfoName, benchmarkSamples, showOutliers)
 {
     boxPlotItems.push({
         type: "box",
-        name: benchmarkInfo["name"],
+        name: benchmarkInfoName,
         quartilemethod: "inclusive",
         boxmean: "sd",
         pointpos: 0,
@@ -68,7 +68,7 @@ function displayBoxPlot(boxPlotItems)
 //--------------------------------------------------------------------------------------------------
 // Density Plot Functions
 //--------------------------------------------------------------------------------------------------
-function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
+function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkInfoName, benchmarkSamples, showOutliers)
 {
     const outliersState = showOutliers ? "With outliers" : "Without outliers";
     
@@ -89,7 +89,7 @@ function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkS
 
     densityItems.push({
         type: "scattergl",
-        name: benchmarkInfo["name"],
+        name: benchmarkInfoName,
         mode: "lines",
         fill: "tozeroy",
         x: xRange,
@@ -154,11 +154,11 @@ function displayDensityPlot(densityItems)
 //--------------------------------------------------------------------------------------------------
 // Histogram Plot Functions
 //--------------------------------------------------------------------------------------------------
-function addHistogramPlotTraces(histogramPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers)
+function addHistogramPlotTraces(histogramPlotItems, itemColor, benchmarkInfo, benchmarkInfoName, benchmarkSamples, showOutliers)
 {
     histogramPlotItems.push({
         type: "histogram",
-        name: benchmarkInfo["name"],
+        name: benchmarkInfoName,
         //histnorm: "probability density", // enable this if you want to have a curve similar to a KDE
         opacity: 0.6,
         x: benchmarkSamples,
@@ -248,7 +248,7 @@ function getJSONData(jsonFilePath)
     });
 }
 
-function retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor)
+function retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor, isCompareMultiMode = false)
 {
     // Create calls to collect JSON benchmark data
     let calls = [];
@@ -288,10 +288,11 @@ function retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor)
                 benchmarkSamples.push(...benchmarkInfo["sorted_upper_outliers_samples"]);
             }
 
-            const itemColor = plotItemsColor[i];
-            
-            addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
-            addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkSamples, showOutliers);
+            const itemColor         = plotItemsColor[i];
+            const benchmarkInfoName = benchmarkInfo["name"] + (isCompareMultiMode ? " (" + i.toString() + ")" : "");
+
+            addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkInfoName, benchmarkSamples, showOutliers);
+            addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkInfoName, benchmarkSamples, showOutliers);
         }
         
         // Show Plots
