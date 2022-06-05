@@ -3,6 +3,18 @@ body
     font-family: Arial, sans-serif;
 }
 
+table, th, td
+{
+	border: 1px solid black;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+th, td
+{
+	padding: 5px;
+}
+
 .button
 {
     display:         inline-block;
