@@ -295,6 +295,7 @@ function retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor)
         }
         
         // Show Plots
+        $("#benchmark_results_plots").empty();
         generateDummyPlot("dummy_plot_to_init_plotly"); // See commit 5152556 for more details
         displayBoxPlot(boxPlotItems);
         displayDensityPlot(densityItems);
@@ -334,13 +335,19 @@ function setComboBoxSelectionAndPlot(combobox, prevSelectedIndex, prevSelectedIt
     retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor);
 }
 
+function resetOptionsPanel()
+{
+    $("#options_panel").hide();
+    $("#show_outliers").prop("checked", true);
+}
+
 function clearBenchmarkResults(filterIndex)
 {
     $("#benchmark_start").empty();
     $("#benchmark_end").empty();
 }
 
-function populateBenchmarkListFromFilter(benchmarkResultsList)
+function populateBenchmarkListFromFilter(benchmarkResultsList, filterIndex)
 {
     populateBenchmarkListComboBox("#benchmark_start", benchmarkResultsList);
     populateBenchmarkListComboBox("#benchmark_end",   benchmarkResultsList);

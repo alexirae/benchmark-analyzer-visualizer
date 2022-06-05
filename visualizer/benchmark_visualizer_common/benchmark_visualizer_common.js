@@ -98,7 +98,7 @@ function filterMarching(comboboxId, currentFilterElement, operationFilterDivId, 
 	}
 	else
 	{
-		populateBenchmarkListFromFilter(jsonObjects);
+		populateBenchmarkListFromFilter(jsonObjects, filterIndex);
 	}
 };
 
@@ -159,7 +159,7 @@ function createOperationsFilter(operationFilterDivId, filterIndex)
         {
             const benchmarkResultsList = jsonObjects["OPERATIONS"][operationName];
 
-            populateBenchmarkListFromFilter(benchmarkResultsList);
+            populateBenchmarkListFromFilter(benchmarkResultsList, filterIndex);
         });
     }
 }
@@ -185,11 +185,6 @@ function populateBenchmarkListComboBox(comboboxName, benchmarkResultsList)
 	g_benchmarkResultsArray = JSON.parse(JSON.stringify(benchmarkResultsList));
 }
 
-function resetOptionsPanel()
-{
-    $("#options_panel").hide();
-    $("#show_outliers").prop("checked", true);
-}
 
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)

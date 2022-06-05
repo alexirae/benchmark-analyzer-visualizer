@@ -12,7 +12,7 @@ function clearBenchmarkResults(filterIndex)
     $("#benchmarks").empty();
 }
 
-function populateBenchmarkListFromFilter(benchmarkResultsList)
+function populateBenchmarkListFromFilter(benchmarkResultsList, filterIndex)
 {
     populateBenchmarkListComboBox("#benchmarks", benchmarkResultsList);
 }

@@ -259,6 +259,12 @@ function generateAndDisplayPlots(benchmarkInfo, showOutliers)
 //--------------------------------------------------------------------------------------------------
 // Helper Functions
 //--------------------------------------------------------------------------------------------------
+function resetOptionsPanel()
+{
+    $("#options_panel").hide();
+    $("#show_outliers").prop("checked", true);
+}
+
 function displayJSONData(benchmarkInfo)
 {
     const showOutliers = $("#show_outliers").prop("checked");
