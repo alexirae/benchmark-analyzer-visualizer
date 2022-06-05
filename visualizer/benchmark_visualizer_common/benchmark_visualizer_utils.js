@@ -98,17 +98,17 @@ function generateUUID()
 //------------------------------------------------------------------------------------------------
 // Plot Functions
 //------------------------------------------------------------------------------------------------
-function generateDummyPlot(divName)
+function generateDummyPlot(divId)
 {
-    const dummyPlotDiv = createElementWithId("div", divName);
+    const dummyPlotDiv = createElementWithId("div", divId);
     document.getElementById("benchmark_results_plots").appendChild(dummyPlotDiv);
 
-    Plotly.newPlot(divName, []);
+    Plotly.newPlot(divId, []);
 }
 
-function removeDummyPlot(divName)
+function removeDummyPlot(divId)
 {
-    const dummyPlotDiv = document.getElementById(divName);
+    const dummyPlotDiv = document.getElementById(divId);
     document.getElementById("benchmark_results_plots").removeChild(dummyPlotDiv);
 }
 

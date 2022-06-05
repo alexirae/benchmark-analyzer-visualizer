@@ -27,15 +27,15 @@ function addBoxPlotTraces(boxPlotItems, itemColor, benchmarkInfo, benchmarkInfoN
 
 function displayBoxPlot(boxPlotItems)
 {
-    const divName                    = "benchmark_results_plot_box";
-    const benchmarkResultsPlotBoxDiv = createElementWithId("div", divName);
+    const divId                      = "benchmark_results_plot_box";
+    const benchmarkResultsPlotBoxDiv = createElementWithId("div", divId);
 
     document.getElementById("benchmark_results_plots").appendChild(benchmarkResultsPlotBoxDiv);
 
     Plotly.newPlot
     (
         // Div
-        divName,
+        divId,
         
         // Data
         boxPlotItems,
@@ -106,15 +106,15 @@ function addDensityPlotTraces(densityItems, itemColor, benchmarkInfo, benchmarkI
 
 function displayDensityPlot(densityItems)
 {
-    const divName                        = "benchmark_results_plot_density";
-    const benchmarkResultsPlotDensityDiv = createElementWithId("div", divName);
+    const divId                          = "benchmark_results_plot_density";
+    const benchmarkResultsPlotDensityDiv = createElementWithId("div", divId);
 
 	document.getElementById("benchmark_results_plots").appendChild(benchmarkResultsPlotDensityDiv);
 
     Plotly.newPlot
     (
         // Div
-        divName,
+        divId,
         
         // Data
         densityItems,
@@ -174,15 +174,15 @@ function addHistogramPlotTraces(histogramPlotItems, itemColor, benchmarkInfo, be
 
 function displayHistogramPlot(histogramPlotItems)
 {
-    const divName                          = "benchmark_results_plot_histogram";
-    const benchmarkResultsPlotHistogramDiv = createElementWithId("div", divName);
+    const divId                            = "benchmark_results_plot_histogram";
+    const benchmarkResultsPlotHistogramDiv = createElementWithId("div", divId);
 
 	document.getElementById("benchmark_results_plots").appendChild(benchmarkResultsPlotHistogramDiv);
 
     Plotly.newPlot
     (
         // Div
-        divName,
+        divId,
         
         // Data (plotly traces)
         histogramPlotItems,
