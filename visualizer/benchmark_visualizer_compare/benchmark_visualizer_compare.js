@@ -58,4 +58,4 @@ $("#hide_outliers").change(function()
 // Main
 //--------------------------------------------------------------------------------------------------
 resetOptionsPanel();
-createBenchmarkOperationFilter("operation_filter", 0, function () { createOperationsFilter("operation_filter", 0); });
+createBenchmarkOperationFilter($("#operation_filter_0").attr("name"), function () { createOperationsFilter($("#operation_filter_0").attr("name")); });

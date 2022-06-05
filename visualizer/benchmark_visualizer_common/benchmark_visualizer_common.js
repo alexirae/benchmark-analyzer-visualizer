@@ -136,10 +136,14 @@ function createFilterElement(jsonObjects, operationFilterDivId, filterIndex)
     });
 }
 
-function createOperationsFilter(operationFilterDivId, filterIndex)
+function createOperationsFilter(operationFilterDivName)
 {
-    const projectsId = "#projects_" + filterIndex.toString();
-    const isMultiProject = $(projectsId).length > 0;
+    const operationFilterDiv   = $("div[name=\"" + operationFilterDivName + "\"");
+    const operationFilterDivId = operationFilterDiv.prop("id");
+    const filterIndex          = operationFilterDivId.substr(operationFilterDivId.lastIndexOf('_') + 1);
+
+    const projectsId = "projects_" + filterIndex.toString();
+    const isMultiProject = $("#" + projectsId).length > 0;
 
 	if (isMultiProject)
 	{
@@ -152,8 +156,7 @@ function createOperationsFilter(operationFilterDivId, filterIndex)
 	}
     else
     {
-        const operationId   = "#operations_" + filterIndex.toString();
-        const operationName = $(operationId + " option:selected").text();
+        const operationName = $("#" + operationFilterDivId + " option:selected").text();
 
         $.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
         {
@@ -189,8 +192,12 @@ function populateBenchmarkListComboBox(comboboxName, benchmarkResultsList)
 //--------------------------------------------------------------------------------------------------
 // Functions called in main (Initialize)
 //--------------------------------------------------------------------------------------------------
-function createBenchmarkOperationFilter(operationFilterDivId, filterIndex, createOperationsFilterFunction)
+function createBenchmarkOperationFilter(operationFilterDivName, createOperationsFilterFunction)
 {
+    const operationFilterDiv   = $("div[name=\"" + operationFilterDivName + "\"");
+    const operationFilterDivId = operationFilterDiv.prop("id");
+    const filterIndex          = operationFilterDivId.substr(operationFilterDivId.lastIndexOf('_') + 1);
+
 	$.getJSON("../benchmark_data/operations_indexer.json", function(jsonObjects)
     {
         $.each(jsonObjects, function(key)
