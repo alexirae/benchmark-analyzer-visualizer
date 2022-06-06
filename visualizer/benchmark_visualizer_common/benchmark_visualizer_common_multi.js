@@ -350,8 +350,8 @@ function clearBenchmarkResults(filterIndex)
 
 function populateBenchmarkListFromFilter(benchmarkResultsList, filterIndex)
 {
-    populateBenchmarkListComboBox("#benchmark_start", benchmarkResultsList);
-    populateBenchmarkListComboBox("#benchmark_end",   benchmarkResultsList);
+    populateBenchmarkListComboBox("benchmark_start", benchmarkResultsList);
+    populateBenchmarkListComboBox("benchmark_end",   benchmarkResultsList);
 }
 
 function getBenchmarkResultsArray()
@@ -363,7 +363,7 @@ function getBenchmarkResultsArray()
 //--------------------------------------------------------------------------------------------------
 // Functions called from events
 //--------------------------------------------------------------------------------------------------
-function updateBenchmarkListComboBox(benchmarkListComboBoxId, operationFilterDivId, firstBenchmarkComboBoxRange, secondBenchmarkComboBoxRange)
+function updateBenchmarkListComboBox(benchmarkListComboBoxId, firstBenchmarkComboBoxRange, secondBenchmarkComboBoxRange)
 {
     // Cache previous selection
     const prevSelectedIndex = $("#" + benchmarkListComboBoxId + " option:selected").index();
@@ -374,7 +374,7 @@ function updateBenchmarkListComboBox(benchmarkListComboBoxId, operationFilterDiv
     benchmarkListComboBox.empty();
     benchmarkListComboBox.append("<option selected='true' disabled>Choose Benchmark Result</option>");
     
-    const benchmarkJSONPath = getBenchmarkJSONPathFromFilter(operationFilterDivId, 0);
+    const benchmarkJSONPath = getBenchmarkJSONPathFromFilterIndex(0);
 
     // Update benchmark list combobox accordingly and only display benchmark items based on combobox selection
     if (benchmarkListComboBoxId == "benchmark_start")
@@ -418,7 +418,7 @@ function getBenchmarkData()
         return;
     }
 
-    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilter("operation_filter", 0);
+    const benchmarkJSONPath  = getBenchmarkJSONPathFromFilterIndex(0);
     const benchmarkIdsToPlot = getBenchmarkIdsToPlot();
 
     let benchmarkInfosPaths = [];

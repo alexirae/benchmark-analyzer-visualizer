@@ -17,13 +17,14 @@ function clearDisplayedBenchmarkInfo()
 
 function clearBenchmarkResults(filterIndex)
 {
-    $("#benchmarks_" + filterIndex.toString()).empty();
+    const benchmarkResultsComboBoxId = "benchmarks_" + filterIndex.toString();
+    $("#" + benchmarkResultsComboBoxId).empty();
 }
 
 function populateBenchmarkListFromFilter(benchmarkResultsList, filterIndex)
 {
     const benchmarkResultsComboBoxId = "benchmarks_" + filterIndex.toString();
-    populateBenchmarkListComboBox("#" + benchmarkResultsComboBoxId, benchmarkResultsList);
+    populateBenchmarkListComboBox(benchmarkResultsComboBoxId, benchmarkResultsList);
     
     let benchmarkResultsComboBox = document.getElementById(benchmarkResultsComboBoxId);
     
@@ -133,8 +134,11 @@ function getBenchmarkData()
     for (let filterIndex = 0; filterIndex < numBenchmarFilters; ++filterIndex)
     {
         // Initial check
-        const operationsSelectedIndex = $("#operations_" + filterIndex.toString()).prop("selectedIndex");
-        const benchmarkSelectedIndex  = $("#benchmarks_" + filterIndex.toString()).prop("selectedIndex");
+        const operationsComboboxId       = "operations_" + filterIndex.toString();
+        const benchmarkResultsComboboxId = "benchmarks_" + filterIndex.toString();
+
+        const operationsSelectedIndex = $("#" + operationsComboboxId).prop("selectedIndex");
+        const benchmarkSelectedIndex  = $("#" + benchmarkResultsComboboxId).prop("selectedIndex");
     
         if (operationsSelectedIndex == undefined || 
             benchmarkSelectedIndex  == undefined || 
@@ -145,8 +149,8 @@ function getBenchmarkData()
         }
         
         // Determine the benchmark result path
-        const benchmarkJSONPath      = getBenchmarkJSONPathFromFilter("operation_filter_" + filterIndex.toString(), filterIndex);
-        const benchmarkFileName      = $("#benchmarks_" + filterIndex.toString() + " option:selected").text() + ".json"
+        const benchmarkJSONPath      = getBenchmarkJSONPathFromFilterIndex(filterIndex);
+        const benchmarkFileName      = $("#" + benchmarkResultsComboboxId + " option:selected").text() + ".json"
         const operationBenchmarkPath = benchmarkJSONPath + benchmarkFileName;
 
         benchmarkInfosPaths.push(operationBenchmarkPath);

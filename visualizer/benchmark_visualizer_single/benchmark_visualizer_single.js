@@ -14,7 +14,7 @@ function clearBenchmarkResults(filterIndex)
 
 function populateBenchmarkListFromFilter(benchmarkResultsList, filterIndex)
 {
-    populateBenchmarkListComboBox("#benchmarks", benchmarkResultsList);
+    populateBenchmarkListComboBox("benchmarks", benchmarkResultsList);
 }
 
 
@@ -34,7 +34,7 @@ function getBenchmarkData()
         return;
     }
 
-    const benchmarkJSONPath      = getBenchmarkJSONPathFromFilter("operation_filter", 0);
+    const benchmarkJSONPath      = getBenchmarkJSONPathFromFilterIndex(0);
     const benchmarkFileName      = $("#benchmarks option:selected").text() + ".json"
     const operationBenchmarkPath = benchmarkJSONPath + benchmarkFileName;
 

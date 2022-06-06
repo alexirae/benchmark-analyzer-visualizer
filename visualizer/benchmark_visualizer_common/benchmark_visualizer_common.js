@@ -57,16 +57,18 @@ function createFilterComboBox(currentFilterElement, comboboxId, onChangeFunction
     return comboBox;	
 }
 
-function getBenchmarkJSONPathFromFilter(operationFilterDivId, filterIndex)
+function getBenchmarkJSONPathFromFilterIndex(filterIndex)
 {
     // Build path where the Benchmark JSON file is located
     let benchmarkJSONPath = "../benchmark_data/";
 
-    const projectsId = "#projects_" + filterIndex.toString();
-	const isMultiProject = $(projectsId).length > 0;
+    const projectsId     = "projects_" + filterIndex.toString();
+	const isMultiProject = $("#" + projectsId).length > 0;
     
 	if (isMultiProject)
 	{
+        const operationFilterDivId = "operation_filter_" + filterIndex.toString();
+
         $("#" + operationFilterDivId).children("select").each(function()
         {
             if ($(this).children("option:eq(0)").text() != "PROJECTS")
@@ -79,8 +81,8 @@ function getBenchmarkJSONPathFromFilter(operationFilterDivId, filterIndex)
     }
     else
     {
-        const operationId   = "#operations_" + filterIndex.toString();
-        const operationName = $(operationId + " option:selected").text();
+        const operationId   = "operations_" + filterIndex.toString();
+        const operationName = $("#" + operationId + " option:selected").text();
 
         benchmarkJSONPath += operationName + "/";
     }
@@ -126,7 +128,7 @@ function createFilterElement(jsonObjects, operationFilterDivName)
         {
             let deleteComboboxes = false;
 
-            $("#" + operationFilterDivId).children("select").each(function()
+            operationFilterDiv.children("select").each(function()
             {
                 if (comboboxId == this.id)
                 {
@@ -144,7 +146,7 @@ function createFilterElement(jsonObjects, operationFilterDivName)
 			resetOptionsPanel();
         }
 
-        const comboBox = createFilterComboBox(currentFilterElement, comboboxId, function() { filterMarching(key.toLowerCase(), currentFilterElement, operationFilterDivName); });
+		const comboBox = createFilterComboBox(currentFilterElement, comboboxId, function() { filterMarching(key.toLowerCase(), currentFilterElement, operationFilterDivName); });
         operationFilterDiv.append(comboBox);
     });
 }
@@ -180,16 +182,17 @@ function createOperationsFilter(operationFilterDivName)
     }
 }
 
-function populateBenchmarkListComboBox(comboboxName, benchmarkResultsList)
+function populateBenchmarkListComboBox(benchmarkListComboBoxId, benchmarkResultsList)
 {
-	let benchmarkListComboBox = $(comboboxName);
+	let benchmarkListComboBox = $("#" + benchmarkListComboBoxId);
 	
     benchmarkListComboBox.empty();
 	
+    benchmarkListComboBox.attr("style", "color: black");
     benchmarkListComboBox.append("<option selected='true' value='0' disabled>Choose Benchmark Result</option>");
     benchmarkListComboBox.prop("selectedIndex", 0);
     
-    for (let i = 0; i < benchmarkResultsList.length; i++)
+    for (let i = 0; i < benchmarkResultsList.length; ++i)
     {
 		benchmarkListComboBox.append($("<option></option>").attr("value", i + 1).text(benchmarkResultsList[i]));
     }
