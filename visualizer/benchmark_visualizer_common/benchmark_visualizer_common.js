@@ -15,33 +15,37 @@ function createEmptyComboBox(id)
     return createElementWithId("select", id);
 }
 
-function addComboBoxOption(comboBox, value, innerHTML, selected, disabled)
+function createComboBoxOption(value, innerHTML, selected, disabled)
 {
 	let comboBoxOption = document.createElement("option");
 
-	comboBoxOption.value     = value;
-	comboBoxOption.innerHTML = innerHTML;
-	comboBoxOption.selected  = selected;
-	comboBoxOption.disabled  = disabled;
+	comboBoxOption.value        = value;
+	comboBoxOption.innerHTML    = innerHTML;
+	comboBoxOption.selected     = selected;
+	comboBoxOption.disabled     = disabled;
 
-	comboBox.add(comboBoxOption);
+    return comboBoxOption;
 }
 
-function createComboBox(currentFilterElement, key, parentDiv, onChangeFunction)
+function createFilterComboBox(currentFilterElement, comboboxId, onChangeFunction)
 {
 	// Create ComboBox
-	let comboBox = createEmptyComboBox(key);
+	let comboBox = createEmptyComboBox(comboboxId);
 
 	// Add ComboBox options
-    const title = key.substr(0, key.lastIndexOf('_')).toUpperCase();
-	addComboBoxOption(comboBox, 0, title, true, true);
+    const title = comboboxId.substr(0, comboboxId.lastIndexOf('_')).toUpperCase();
+
+	const comboBoxOption = createComboBoxOption(0, title, true, true);
+    comboBox.add(comboBoxOption);
 
 	let i = 1;
 
 	$.each(currentFilterElement, function(optionText)
 	{
-		addComboBoxOption(comboBox, i, optionText, false, false);
-		i++;
+        const comboBoxOption = createComboBoxOption(i, optionText, false, false);
+        comboBox.add(comboBoxOption);
+
+		++i;
 	});
 
 	// Assign onchange logic
@@ -50,8 +54,7 @@ function createComboBox(currentFilterElement, key, parentDiv, onChangeFunction)
 		onChangeFunction();
 	};
 
-	// Add combobox
-	$("#" + parentDiv).append(comboBox);
+    return comboBox;	
 }
 
 function getBenchmarkJSONPathFromFilter(operationFilterDivId, filterIndex)
@@ -141,7 +144,8 @@ function createFilterElement(jsonObjects, operationFilterDivName)
 			resetOptionsPanel();
         }
 
-		createComboBox(currentFilterElement, comboboxId, operationFilterDivId, function() { filterMarching(key.toLowerCase(), currentFilterElement, operationFilterDivName); });
+        const comboBox = createFilterComboBox(currentFilterElement, comboboxId, function() { filterMarching(key.toLowerCase(), currentFilterElement, operationFilterDivName); });
+        operationFilterDiv.append(comboBox);
     });
 }
 
@@ -211,10 +215,11 @@ function createBenchmarkOperationFilter(operationFilterDivName, createOperations
     {
         $.each(jsonObjects, function(key)
         {
-			const currentFilterElement = jsonObjects[key];
+            const currentFilterElement = jsonObjects[key];
             const comboboxId           = key.toLowerCase() + "_" + filterIndex.toString();
 
-			createComboBox(currentFilterElement, comboboxId, operationFilterDivId, createOperationsFilterFunction);
+            const comboBox = createFilterComboBox(currentFilterElement, comboboxId, createOperationsFilterFunction);
+            operationFilterDiv.append(comboBox);
         });
     });
 }

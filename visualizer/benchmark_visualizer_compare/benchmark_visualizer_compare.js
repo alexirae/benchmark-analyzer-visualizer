@@ -59,3 +59,4 @@ $("#hide_outliers").change(function()
 //--------------------------------------------------------------------------------------------------
 resetOptionsPanel();
 createBenchmarkOperationFilter($("#operation_filter_0").attr("name"), function () { createOperationsFilter($("#operation_filter_0").attr("name")); });
+initBenchmarkListComboboxes();

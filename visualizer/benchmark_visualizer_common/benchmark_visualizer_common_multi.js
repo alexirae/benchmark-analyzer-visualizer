@@ -436,3 +436,16 @@ function getBenchmarkData()
 
     retrieveAndDisplayJSONData(benchmarkInfosPaths, plotItemsColor);
 }
+
+
+//--------------------------------------------------------------------------------------------------
+// Functions called in main (Initialize)
+//--------------------------------------------------------------------------------------------------
+function initBenchmarkListComboboxes()
+{
+    $("#benchmark_start").attr("style", "color: grey");
+    $("#benchmark_start").append("<option value='0' autocomplete='off' style='display:none;' selected disabled>Select operation first</option>");
+    
+    $("#benchmark_end").attr("style", "color: grey");
+    $("#benchmark_end").append("<option value='0' autocomplete='off' style='display:none;' selected disabled>Select operation first</option>");
+}

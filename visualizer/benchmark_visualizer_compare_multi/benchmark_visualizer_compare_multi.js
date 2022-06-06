@@ -100,6 +100,14 @@ function addFilter()
     const benchmarkResultsComboBoxId = "benchmarks_" + filterIndex.toString();
     const benchmarkResultsComboBox   = createEmptyComboBox(benchmarkResultsComboBoxId);
 
+    benchmarkResultsComboBox.setAttribute("style", "color: grey");
+
+    let benchmarkResultsComboBoxOption = createComboBoxOption(0, "Select operation first", true, true);
+    benchmarkResultsComboBoxOption.setAttribute("autocomplete", "off");
+    benchmarkResultsComboBoxOption.setAttribute("style", "display: none");
+
+    benchmarkResultsComboBox.add(benchmarkResultsComboBoxOption);
+
     $("#" + benchmarkFilterDivId).append(benchmarkResultsComboBox);
     $("#" + benchmarkFilterDivId).append("<br>");
 

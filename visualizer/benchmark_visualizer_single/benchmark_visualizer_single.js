@@ -65,7 +65,18 @@ $("#hide_outliers").change(function()
 
 
 //--------------------------------------------------------------------------------------------------
+// Functions called in main (Initialize)
+//--------------------------------------------------------------------------------------------------
+function initBenchmarkListCombobox()
+{
+    $("#benchmarks").attr("style", "color: grey");
+    $("#benchmarks").append("<option value='0' autocomplete='off' style='display:none;' selected disabled>Select operation first</option>");
+}
+
+
+//--------------------------------------------------------------------------------------------------
 // Main
 //--------------------------------------------------------------------------------------------------
 resetOptionsPanel();
 createBenchmarkOperationFilter($("#operation_filter_0").attr("name"), function () { createOperationsFilter($("#operation_filter_0").attr("name")); });
+initBenchmarkListCombobox();
