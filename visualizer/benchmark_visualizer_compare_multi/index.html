@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Benchmark Visualizer (Compare Multi)</title>
+        <link rel="shortcut icon" href="#" />
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    
+    <body>
+        <p><b>Select Benchmark Results to Compare:</b></p>
+        
+        <div id="benchmark_filters">
+            
+        </div>
+
+        <br>
+        
+        <button id="add_filter">Add Benchmark Filter</button>
+
+        <br><br>
+        
+        <div id="options_panel">
+
+            <input type="radio" id="show_outliers" name="checkOutliers" autocomplete="off" checked />
+            <label for="show_outliers">Show Outliers</label>
+            
+            <input type="radio" id="hide_outliers" name="checkOutliers" autocomplete="off" />
+            <label for="hide_outliers">Hide Outliers</label>
+        </div>
+        
+        <br><br><br>
+        
+        <div id="comparison_results">
+        </div>
+        
+        <div id="benchmark_results_plots">
+            <!-- Plotly charts will be created as chidren of this div and drawn -->
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script src="../benchmark_visualizer_common/benchmark_visualizer_utils.js"></script>
+		<script src="../benchmark_visualizer_common/benchmark_visualizer_common.js"></script>
+        <script src="../benchmark_visualizer_common/benchmark_visualizer_common_multi.js"></script>
+        <script src="benchmark_visualizer_compare_multi.js"></script>
+    </body>
+</html>
