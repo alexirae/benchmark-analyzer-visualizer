@@ -85,16 +85,21 @@ function getBenchmarkJSONPathFromFilter(operationFilterDivId, filterIndex)
 	return benchmarkJSONPath;
 }
 
-function filterMarching(comboboxId, currentFilterElement, operationFilterDivId, filterIndex)
+function filterMarching(currentFilterElementName, currentFilterElement, operationFilterDivName)
 {
+    const operationFilterDiv   = $("div[name=\"" + operationFilterDivName + "\"");
+    const operationFilterDivId = operationFilterDiv.prop("id");
+    const filterIndex          = operationFilterDivId.substr(operationFilterDivId.lastIndexOf('_') + 1);
+
+    const comboboxId     = currentFilterElementName + "_" + filterIndex;
 	const selectedOption = $("#" + comboboxId + " option:selected").text();
-	const jsonObjects  = currentFilterElement[selectedOption];
+	const jsonObjects    = currentFilterElement[selectedOption];
 
     const isNotOperationsFilterElement = comboboxId.substr(0, comboboxId.lastIndexOf('_')) != "operations";
 
 	if (isNotOperationsFilterElement)
 	{
-		createFilterElement(jsonObjects, operationFilterDivId, filterIndex);
+		createFilterElement(jsonObjects, operationFilterDivName);
 	}
 	else
 	{
@@ -102,8 +107,12 @@ function filterMarching(comboboxId, currentFilterElement, operationFilterDivId, 
 	}
 };
 
-function createFilterElement(jsonObjects, operationFilterDivId, filterIndex)
+function createFilterElement(jsonObjects, operationFilterDivName)
 {
+    const operationFilterDiv   = $("div[name=\"" + operationFilterDivName + "\"");
+    const operationFilterDivId = operationFilterDiv.prop("id");
+    const filterIndex          = operationFilterDivId.substr(operationFilterDivId.lastIndexOf('_') + 1);
+
     $.each(jsonObjects, function(key)
     {
         const currentFilterElement = jsonObjects[key];
@@ -132,7 +141,7 @@ function createFilterElement(jsonObjects, operationFilterDivId, filterIndex)
 			resetOptionsPanel();
         }
 
-		createComboBox(currentFilterElement, comboboxId, operationFilterDivId, function() { filterMarching(comboboxId, currentFilterElement, operationFilterDivId, filterIndex); });
+		createComboBox(currentFilterElement, comboboxId, operationFilterDivId, function() { filterMarching(key.toLowerCase(), currentFilterElement, operationFilterDivName); });
     });
 }
 
@@ -151,7 +160,7 @@ function createOperationsFilter(operationFilterDivName)
 
         $.getJSON("../benchmark_data/" + selectedProject + "_indexer.json", function(jsonObjects)
         {
-            createFilterElement(jsonObjects, operationFilterDivId, filterIndex);
+            createFilterElement(jsonObjects, operationFilterDivName);
         });
 	}
     else
