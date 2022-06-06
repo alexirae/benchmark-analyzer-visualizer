@@ -147,7 +147,7 @@ function createOperationsFilter(operationFilterDivName)
 
 	if (isMultiProject)
 	{
-        const selectedProject = $(projectsId + " option:selected").text();
+        const selectedProject = $("#" + projectsId + " option:selected").text();
 
         $.getJSON("../benchmark_data/" + selectedProject + "_indexer.json", function(jsonObjects)
         {
