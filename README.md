@@ -8,6 +8,7 @@ A humble tool made in **Python3** to analyze benchmark run times (in ms.) from c
 **Javascript** dependencies (**Visualizer**):
 - `jQuery`
 - `PlotlyJS`
+- `jquery-tagsinput-revisited`
 
 ### How to use:
 - **Analysis:**
