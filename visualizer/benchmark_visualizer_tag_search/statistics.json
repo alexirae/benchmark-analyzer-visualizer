@@ -1,0 +1,20 @@
+{
+	"num_analyzed_samples": "Num Analyzed Samples",
+	"minimum": "Min",
+	"lower_fence": "Lower Fence",
+	"q1": "Q1",
+	"median": "Median",
+	"q3": "Q3",
+	"upper_fence": "Upper Fence",
+	"maximum": "Max",
+	"iqr": "Inter Quartile Range (IQR)",
+	"mean": "Mean",
+	"std_dev": "Standard Deviation",
+	"std_err": "Standard Error",
+	"std_err_percentage": "Standard Error Percentage",
+	"margin": "Margin",
+	"margin_percentage": "Margin Percentage",
+	"confidence_interval": "Confidence Interval",
+	"skewness": "Skewness",
+	"kurtosis": "Kurtosis"
+}

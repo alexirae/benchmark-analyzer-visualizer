@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Benchmark Visualizer (Tag Search)</title>
+        <link rel="shortcut icon" href="#" />
+        <link rel="stylesheet" type="text/css" href="../style.css">
+		<link rel="stylesheet" type="text/css" href="../deps/tagsinput/jquery.tagsinput-revisited.min.css">
+    </head>
+    
+    <body>
+        <div id="operation_filter_0" name="op_filter">
+            <!-- Combobox container -->
+        </div>
+        
+        <br>
+
+		<input name="tags" id="tags" class="tagsinput">
+
+        <br><br>
+
+        <div id="statistics_container">
+            <!-- Combobox container -->
+        </div>
+		
+		<br>
+		
+		<label for="outliers" class="toggle"> Outliers: </label>
+		<input type="checkbox" id="outliers" class="checkbox" checked=checked/>
+
+        <br><br><br>
+		
+		<button id="search_button" disabled>Search</button>
+
+        <br><br><br>
+
+        <div id="results_table_container">
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		<script src="../deps/tagsinput/jquery.tagsinput-revisited.min.js"></script>
+        <script src="../benchmark_visualizer_common/benchmark_visualizer_utils.js"></script>
+        <script src="../benchmark_visualizer_common/benchmark_visualizer_common.js"></script>
+        <script src="benchmark_visualizer_tag_search.js"></script>
+    </body>
+</html>

@@ -166,8 +166,6 @@ function getFormattedStatisticName(statisticsVarName)
             return "Lower Fence";
         case "q1":
             return "Q1";
-        case "mean":
-            return "Mean";
         case "median":
             return "Median";
         case "q3":
@@ -178,6 +176,8 @@ function getFormattedStatisticName(statisticsVarName)
             return "Max";
         case "iqr":
             return "Inter Quartile Range (IQR)";
+        case "mean":
+            return "Mean";
         case "std_dev":
             return "Standard Deviation";
         case "std_err":
