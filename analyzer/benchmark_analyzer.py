@@ -55,13 +55,14 @@ def createBenchmarkResults(benchmark_samples, operation):
 
 ##############################################################################
 
-def printBenchmarkResults(benchmark_samples, benchmark_results):
-    print("Samples:")
-    print(benchmark_samples, "\n")
-    
-    print("Sorted Samples:")
-    print(benchmark_results.sorted_lower_outliers_samples, benchmark_results.sorted_no_outliers_samples, benchmark_results.sorted_upper_outliers_samples, "\n")
-    
+def printBenchmarkResults(benchmark_samples, benchmark_results, print_samples_info):
+    if print_samples_info:
+        print("Samples:")
+        print(benchmark_samples, "\n")
+        
+        print("Sorted Samples:")
+        print(benchmark_results.sorted_lower_outliers_samples, benchmark_results.sorted_no_outliers_samples, benchmark_results.sorted_upper_outliers_samples, "\n")
+
     for key in benchmark_results.statistics:
         without_outliers = key == "Without outliers"
 
@@ -121,7 +122,7 @@ def runAnalyzer(kwargs=None):
     benchmark_results = createBenchmarkResults(benchmark_samples, operation_name)
     
     # Print benchmark results
-    printBenchmarkResults(benchmark_samples, benchmark_results)
+    printBenchmarkResults(benchmark_samples, benchmark_results, print_samples_info=False)
 
     # Export benchmark results to a JSON file
     benchmark_results.toJSONFile(json_output_path, operation_name, output_file_name)
