@@ -223,7 +223,7 @@ function createStatisticsCombobox()
 {
 	let comboBox = createEmptyComboBox("statistics");
 	
-	const comboBoxOption = createComboBoxOption(0, "Selec Statistic", true, true);
+	const comboBoxOption = createComboBoxOption(0, "Select Statistic", true, true);
 	comboBox.add(comboBoxOption);
 	
 	$.getJSON("statistics.json", function(jsonObjects)
